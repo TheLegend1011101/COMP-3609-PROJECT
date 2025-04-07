@@ -201,7 +201,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GamePanel() {
         isRunning = false;
-        currentLevel = new Level(1);  // Start with level 1
+        currentLevel = new SpaceLevel(1);  // Start with level 1
     }
 
     public void run() {
@@ -242,10 +242,10 @@ public class GamePanel extends JPanel implements Runnable {
     //     currentLevel.getPlayer().moveRight();
     // }
 
-    public void shoot() {
-        Bullet bullet = currentLevel.getPlayer().shoot();
-        currentLevel.addBullet(bullet);
-    }
+    // public void shoot() {
+    //     Bullet bullet = currentLevel.getPlayer().shoot();
+    //     currentLevel.addBullet(bullet);
+    // }
 
 	public void handleKeyPress(KeyEvent e) {
         currentLevel.handleKeyPress(e);  // Send input to Level

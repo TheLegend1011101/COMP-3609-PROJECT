@@ -2,7 +2,7 @@ import java.awt.Rectangle;
 import java.awt.Graphics2D;
 import java.awt.Color;
 public class Enemy {
-    private int x, y;
+    protected int x, y;
     private int width = 40, height = 40;
     private int speed = 2;
 
