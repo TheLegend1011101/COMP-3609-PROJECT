@@ -1,55 +1,48 @@
-import java.awt.Color;
+import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.Graphics2D;
+public abstract class Player {
+    protected int x, y;
+    protected int width, height;
+    protected int dx, dy;
+    protected Level level;
+    protected int bulletsPerShot = 1;
+    Player(int x, int y, int width, int height, Level level) {
+        this.x = x;
+        this.y = y;
+        dx = 5;
+        dy = 5;
+        this.width = width;
+        this.height = height;
+        this.level = level;
+    }
+    public abstract void update();
 
-public class Player {
-    private int x, y;
-    private int width = 50, height = 50;
-    private int speed = 5;
-    private boolean movingLeft = false;
-    private boolean movingRight = false;
-    private boolean movingUp = false;
-    private boolean movingDown = false;
+    public abstract void draw(Graphics2D g2);
 
-    public Player() {
-        this.x = 300;
-        this.y = 450; 
+    public int getX() {
+        return x;
+    }
+    public int getY() {
+        return y;
+    }
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, width, height);  // Create and return the bounding box
     }
 
-    public void update() {
-        if (movingLeft && x > 0) x -= speed;
-        if (movingRight && x < 550) x += speed;
-        if (movingUp && y > 0) y -= speed;
-        if (movingDown && y < 500) y += speed;
+    public void setBulletsPerShot(int bullets) {
+        if(bullets < 1) {
+            bullets = 1;  // Ensure at least one bullet per shot
+        }
+        if(bullets > 3) {
+            bullets = 3;  // Limit to a maximum of 10 bullets per shot
+        }
+        this.bulletsPerShot = bullets;  // Set the number of bullets per shot
+    }
+    public int getBulletsPerShot() {
+        return bulletsPerShot;  // Get the number of bullets per shot
     }
 
-    public void draw(Graphics2D g2) {
-        g2.setColor(Color.BLUE);
-        g2.fillRect(x, y, width, height);
-    }
-
-    public void setMovingLeft(boolean movingLeft) {
-        this.movingLeft = movingLeft;
-    }
-
-    public void setMovingRight(boolean movingRight) {
-        this.movingRight = movingRight;
-    }
-
-    public void setMovingUp(boolean movingUp) {
-        this.movingUp = movingUp;
-    }
-
-    public void setMovingDown(boolean movingDown) {
-        this.movingDown = movingDown;
-    }
-
-    public Bullet shoot() {
-        return new Bullet(x + width / 2, y);
-    }
-
-    public int getX() { return x; }
-    public int getY() { return y; }
-    public int getWidth() { return width; }
-    public int getHeight() { return height; }
+    public abstract void handleKeyPress(KeyEvent e);
+    public abstract void handleKeyRelease(KeyEvent e);
 }
-
