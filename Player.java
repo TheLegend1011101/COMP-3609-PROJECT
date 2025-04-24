@@ -1,4 +1,5 @@
-import java.awt.Color;
+import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.Graphics2D;
 
 public class Player {
@@ -11,36 +12,26 @@ public class Player {
     private boolean movingDown = false;
 
     public Player() {
-        // this.x = 300;
-        // this.y = 450;
-        this.x = 100; // Example initial position
-        this.y = 100;
-        this.width = 50;
-        this.height = 50;
+        this.x = 300;
+        this.y = 450; 
     }
 
     public void update() {
-        if (movingLeft && x > 0)
-            x -= speed;
-        if (movingRight && x < 550)
-            x += speed;
-        if (movingUp && y > 0)
-            y -= speed;
-        if (movingDown && y < 500)
-            y += speed;
+        if (movingLeft && x > 0) x -= speed;
+        if (movingRight && x < 550) x += speed;
+        if (movingUp && y > 0) y -= speed;
+        if (movingDown && y < 500) y += speed;
     }
 
     public void draw(Graphics2D g2) {
         g2.setColor(Color.BLUE);
         g2.fillRect(x, y, width, height);
     }
-
-    public void setMovingLeft(boolean movingLeft) {
-        this.movingLeft = movingLeft;
+    public int getY() {
+        return y;
     }
-
-    public void setMovingRight(boolean movingRight) {
-        this.movingRight = movingRight;
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, width, height);  // Create and return the bounding box
     }
 
     public void setMovingUp(boolean movingUp) {
@@ -51,39 +42,12 @@ public class Player {
         this.movingDown = movingDown;
     }
 
-    public void moveLeft() {
-        this.x -= 10; // Adjust the value as needed for movement speed
-    }
-
-    public void moveRight() {
-        this.x += 10; // Adjust the value as needed for movement speed
-    }
-
-    public void moveUp() {
-        this.y -= 10; // Adjust the value as needed for movement speed
-    }
-
-    public void moveDown() {
-        this.y += 10; // Adjust the value as needed for movement speed
-    }
-
     public Bullet shoot() {
         return new Bullet(x + width / 2, y);
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
+    public int getX() { return x; }
+    public int getY() { return y; }
+    public int getWidth() { return width; }
+    public int getHeight() { return height; }
 }

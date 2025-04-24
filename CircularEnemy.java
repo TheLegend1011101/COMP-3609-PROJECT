@@ -2,21 +2,8 @@ import java.awt.Graphics2D;
 import java.awt.Color;
 
 public class CircularEnemy extends Enemy {
-    private double centerX, centerY; // Center of the circular path
-    private double radius;
-    private double angle; // Current angle in radians
-    private double angularSpeed = 0.05; // Adjust for faster/slower circular movement
-
-    public CircularEnemy(int startX, int startY, int circleCenterX, int circleCenterY, int circleRadius) {
-        super(startX, startY);
-        this.centerX = circleCenterX;
-        this.centerY = circleCenterY;
-        this.radius = circleRadius;
-
-        // Initialize the enemy's position on the circle
-        this.angle = Math.atan2(startY - centerY, startX - centerX);
-        this.x = (int) (circleCenterX + radius * Math.cos(angle));
-        this.y = (int) (circleCenterY + radius * Math.sin(angle));
+    CircularEnemy(int startX, int startY, Level level){
+        super(startX, startY, level);
     }
 
     @Override

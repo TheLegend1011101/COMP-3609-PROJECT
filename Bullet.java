@@ -1,28 +1,23 @@
-import java.awt.Rectangle;
+import java.util.ArrayList;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.Color;
-public class Bullet {
-    private int x, y, width = 5, height = 10;  // Bullet dimensions
-    private int speed = 10;
-
-    public Bullet(int startX, int startY) {
-        this.x = startX;
-        this.y = startY;
+public abstract class Bullet {
+    protected int x, y;  // Position of the bullet
+    protected int speed;  // Speed of the bullet
+    protected int width = 5, height = 10;  // Bullet dimensions
+    protected BulletOwner owner;  // Owner of the bullet (player or enemy)
+    protected int damage;  // Damage dealt by the bullet
+    public int getSpeed() {
+        return speed;
     }
 
-    public Rectangle getBounds() {
-        return new Rectangle(x, y, width, height);  // Create and return the bounding box
+    public enum BulletOwner {
+        PLAYER,
+        ENEMY
     }
-    // Update the position of the bullet (move up)
-    public void update() {
-        y -= speed;
-    }
-
-    // Check if the bullet is off-screen
-    public boolean isOffScreen() {
-        return y < 0;
-    }
-
+    public abstract void update();  // Abstract method to update the bullet's position
+    public abstract void draw(Graphics2D g);  // Abstract method to draw the bullet
     public int getX() {
         return x;
     }
@@ -39,8 +34,14 @@ public class Bullet {
         return 10;  // Bullet height
     }
 
-    public void draw(Graphics2D g2) {
-        g2.setColor(Color.RED);  // Set color for the bullet
-        g2.fillRect(x, y, width, height);  // Draw the bullet as a rectangle (for simplicity)
+    // public int getSpeed() {
+    //     return speed;  // Return the speed of the bullet
+    // }
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, width, height);  // Create and return the bounding box
+    }
+
+    public BulletOwner getOwner() {
+        return owner;  // Return the owner of the bullet
     }
 }

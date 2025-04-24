@@ -139,8 +139,8 @@ public class BezierEnemy extends Enemy {
     private Point p0, p1, p2;
     private boolean movingBack = false;
 
-    public BezierEnemy(int startX, int startY) {
-        super(startX, startY);
+    public BezierEnemy(int startX, int startY, Level level) {
+        super(startX, startY, level);
 
         int screenWidth = 600; // Fixed screen width
         int centerX = screenWidth / 2;
