@@ -1,4 +1,6 @@
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.Graphics2D;
 import java.awt.Color;
 public class Enemy {
@@ -13,12 +15,16 @@ public class Enemy {
     //     this.y = startY;
     //     this.damage = damage;  // Initialize damage
     // }
+    private Level level;
+    private long lastShotTime = 0;  // Time of the last shot
+    private List<Bullet> bullets = new ArrayList<>();
 
-    public Enemy(int startX, int startY) {
+    public Enemy(int startX, int startY, Level level) {
         this.x = startX;  // Set the starting x position
         this.y = startY;  // Set the starting y position
         this.health = 100;  // Default health value
         this.damage = 10;  // Default damage value
+        this.level = level;
     }
 
     public Rectangle getBounds() {
@@ -27,6 +33,22 @@ public class Enemy {
     // Move down and across
     public void update() {
         y += speed;  // Move downward
+        shoot();
+    }
+
+    public void shoot(){
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastShotTime >= 2000) {
+            // shoot();
+            bullets.add(new SpaceBullet(x + width / 2, y + height, Bullet.BulletOwner.ENEMY, damage));  // Create a new bullet
+            lastShotTime = currentTime;
+        }
+        level.addBullets(bullets);
+        // Update bullets
+        // bullets.removeIf(Bullet::isOffScreen);
+        // for (Bullet b : bullets) {
+        //     b.update();
+        // }
     }
 
     // Check if the enemy is off-screen

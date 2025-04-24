@@ -6,8 +6,8 @@ public class SineWaveEnemy extends Enemy {
     private double phase;
     private int baseX;
     // (these are: 75 = 150/2, 225 = 150 + 150/2, etc.)
-    public SineWaveEnemy(int startX, int startY) {
-        super(startX, startY);
+    public SineWaveEnemy(int startX, int startY, Level level) {
+        super(startX, startY, level);
         this.baseX = startX;
         this.phase = 0;
     }
@@ -29,5 +29,7 @@ public class SineWaveEnemy extends Enemy {
         x = newX;  // Update the horizontal position
         y += SPEED;
         phase += FREQUENCY;
+
+        shoot();
     }
 }

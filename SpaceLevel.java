@@ -39,7 +39,7 @@ public class SpaceLevel extends Level {
     private void spawnEnemies() {
         for (int i = 0; i < 4; i++) {
             // enemies.add(new SineWaveEnemy(100 * (i + 1), 50));  // Example enemy spawn positions
-            enemies.add(new SineWaveEnemy(150 * i + 55, 50));
+            enemies.add(new SineWaveEnemy(150 * i + 55, 50, this));
         }
     }
 
@@ -54,6 +54,9 @@ public class SpaceLevel extends Level {
 
         for (Bullet bullet : bullets) {
             bullet.update();  // Update bullet positions
+            if(bullet.getOwner() == SpaceBullet.BulletOwner.PLAYER){
+                System.out.println(bullet.getSpeed());
+            }
         }
 
         for (Enemy enemy : enemies) {
@@ -75,14 +78,14 @@ public class SpaceLevel extends Level {
         // Check for collisions
         for (Bullet bullet : bullets) {
             for (Enemy enemy : enemies) {
-                if (bullet.getBounds().intersects(enemy.getBounds()) && bullet.getOwner() == Bullet.BulletOwner.PLAYER) {
+                if (bullet.getBounds().intersects(enemy.getBounds()) && bullet.getOwner() == SpaceBullet.BulletOwner.PLAYER) {
                     bulletsToRemove.add(bullet);
                     if(enemy.getHealth() <= 0){
                         enemiesToRemove.add(enemy);
                     // You can add scoring, sounds, or other effects here
                 }
             }
-            if(bullet.getBounds().intersects(player.getBounds()) && bullet.getOwner() == Bullet.BulletOwner.ENEMY){
+            if(bullet.getBounds().intersects(player.getBounds()) && bullet.getOwner() == SpaceBullet.BulletOwner.ENEMY){
                 bulletsToRemove.add(bullet);
                 // Handle player damage or game over logic here
             }
@@ -130,7 +133,7 @@ public class SpaceLevel extends Level {
     }
 
     // Add a bullet to the level
-    public void addBullet(Bullet bullet) {
+    public void addBullet(SpaceBullet bullet) {
         bullets.add(bullet);
     }
 

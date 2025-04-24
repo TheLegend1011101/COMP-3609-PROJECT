@@ -56,13 +56,13 @@ public class SpacePlayer extends Player {
     // Spread bullets evenly across the player's width
     if (bulletsPerShot == 1) {
         int bulletX = x + width / 2;
-        bullets.add(new Bullet(bulletX, y, Bullet.BulletOwner.PLAYER, damage));
+        bullets.add(new SpaceBullet(bulletX, y, SpaceBullet.BulletOwner.PLAYER, damage));
     } else {
-        System.out.println(1);
+        // System.out.println(1);
         float spacing = width / (float)(bulletsPerShot - 1);
         for (int i = 0; i < bulletsPerShot; i++) {
             int bulletX = (int)(x + i * spacing);
-            bullets.add(new Bullet(bulletX, y, Bullet.BulletOwner.PLAYER, damage));
+            bullets.add(new SpaceBullet(bulletX, y, SpaceBullet.BulletOwner.PLAYER, damage));
         }
         
     }

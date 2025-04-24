@@ -1,6 +1,6 @@
 public class CircularEnemy extends Enemy {
-    CircularEnemy(int startX, int startY){
-        super(startX, startY);
+    CircularEnemy(int startX, int startY, Level level){
+        super(startX, startY, level);
     }
 
     @Override
