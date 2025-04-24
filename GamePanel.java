@@ -13,7 +13,7 @@
 //     private List<Bullet> bullets;
 //     private List<Enemy> enemies;
 // 	private boolean leftPressed, rightPressed, upPressed, downPressed, shootPressed;
-    
+
 //     public GamePanel() {
 // 		leftPressed = false;
 // 		rightPressed = false;
@@ -87,7 +87,7 @@
 // 		if (shootPressed) shoot();
 // 		List<Bullet> bulletsToRemove = new ArrayList<>();
 // 		List<Enemy> enemiesToRemove = new ArrayList<>();
-	
+
 // 		// Update and check bullets
 // 		for (Bullet bullet : bullets) {
 // 			bullet.update();
@@ -102,7 +102,7 @@
 // 				enemiesToRemove.add(enemy);  // Mark enemies that are off-screen for removal
 // 			}
 // 		}
-	
+
 // 		// Check for collisions between bullets and enemies
 // 		for (Bullet bullet : bullets) {
 // 			for (Enemy enemy : enemies) {
@@ -113,7 +113,7 @@
 // 				}
 // 			}
 // 		}
-	
+
 // 		// Remove bullets and enemies that collided or went off-screen
 // 		bullets.removeAll(bulletsToRemove);
 // 		enemies.removeAll(enemiesToRemove);
@@ -123,31 +123,29 @@
 // 		// Draw everything to the off-screen buffer first
 // 		Graphics2D imageContext = (Graphics2D) image.getGraphics();
 // 		imageContext.clearRect(0, 0, image.getWidth(), image.getHeight());  // Clear the buffer
-	
+
 // 		// Draw the player
 // 		imageContext.setColor(Color.BLUE);
 // 		imageContext.fillRect(player.getX(), player.getY(), player.getWidth(), player.getHeight());
-	
+
 // 		// Draw the bullets
 // 		imageContext.setColor(Color.RED);
 // 		for (Bullet bullet : bullets) {
 // 			imageContext.fillRect(bullet.getX(), bullet.getY(), bullet.getWidth(), bullet.getHeight());
 // 		}
-	
+
 // 		// Draw the enemies
 // 		imageContext.setColor(Color.GREEN);
 // 		for (Enemy enemy : enemies) {
 // 			imageContext.fillRect(enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight());
 // 		}
-	
+
 // 		// After drawing to the buffer, now draw the buffer to the screen
 // 		Graphics2D g2d = (Graphics2D) getGraphics();
 // 		g2d.drawImage(image, 0, 0, getWidth(), getHeight(), null);  // Copy the buffer to the screen
-	
+
 // 		g2d.dispose();  // Release the graphics context
 // 	}
-
-	
 
 //     public void moveLeft() {
 //         player.moveLeft();
@@ -194,6 +192,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
+
 public class GamePanel extends JPanel implements Runnable {
     private Level currentLevel;
     private boolean isRunning;
@@ -212,7 +211,7 @@ public class GamePanel extends JPanel implements Runnable {
         try {
             isRunning = true;
             while (isRunning) {
-                currentLevel.update();  // Update the current level
+                currentLevel.update(); // Update the current level
                 gameRender();
                 Thread.sleep(50);
             }
@@ -223,13 +222,13 @@ public class GamePanel extends JPanel implements Runnable {
 
     // @Override
     // protected void paintComponent(Graphics g) {
-    //     super.paintComponent(g);
-    //     currentLevel.draw(g);  // Draw the current level
+    // super.paintComponent(g);
+    // currentLevel.draw(g); // Draw the current level
     // }
 
-	public void gameRender() {
-		currentLevel.draw((Graphics2D)getGraphics());
-	}
+    public void gameRender() {
+        currentLevel.draw((Graphics2D) getGraphics());
+    }
 
     public void startGame() {
         if (gameThread == null) {
@@ -239,24 +238,23 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     // public void moveLeft() {
-    //     currentLevel.getPlayer().moveLeft();
+    // currentLevel.getPlayer().moveLeft();
     // }
 
     // public void moveRight() {
-    //     currentLevel.getPlayer().moveRight();
+    // currentLevel.getPlayer().moveRight();
     // }
 
     // public void shoot() {
-    //     Bullet bullet = currentLevel.getPlayer().shoot();
-    //     currentLevel.addBullet(bullet);
+    // Bullet bullet = currentLevel.getPlayer().shoot();
+    // currentLevel.addBullet(bullet);
     // }
 
-	public void handleKeyPress(KeyEvent e) {
-        currentLevel.handleKeyPress(e);  // Send input to Level
+    public void handleKeyPress(KeyEvent e) {
+        currentLevel.handleKeyPress(e); // Send input to Level
     }
 
     public void handleKeyRelease(KeyEvent e) {
-        currentLevel.handleKeyRelease(e);  // Send input to Level
+        currentLevel.handleKeyRelease(e); // Send input to Level
     }
 }
-

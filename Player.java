@@ -48,17 +48,4 @@ public abstract class Player {
 
     public abstract void handleKeyPress(KeyEvent e);
     public abstract void handleKeyRelease(KeyEvent e);
-
-    public void setHealth(int health) {
-        this.health = health;  // Set the player's health
-    }
-    public int getHealth() {
-        return health;  // Get the player's health
-    }
-    public void setDamage(int damage) {
-        this.damage = damage;  // Set the player's damage
-    }
-    public int getDamage() {
-        return damage;  // Get the player's damage
-    }
 }
