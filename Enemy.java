@@ -22,7 +22,7 @@ public class Enemy {
     public Enemy(int startX, int startY, Level level) {
         this.x = startX;  // Set the starting x position
         this.y = startY;  // Set the starting y position
-        this.health = 100;  // Default health value
+        this.health = 30;  // Default health value
         this.damage = 10;  // Default damage value
         this.level = level;
     }
@@ -82,6 +82,10 @@ public class Enemy {
 
     public int getHealth() {
         return health;  // Return the health of the enemy
+    }
+
+    public void setHealth(int health) {
+        this.health = health;  // Set the health of the enemy
     }
 
     public int getDamage() {

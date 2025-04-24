@@ -3,6 +3,10 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Color;
 public abstract class Bullet {
+    public enum BulletOwner {
+        PLAYER,
+        ENEMY
+    }
     protected int x, y;  // Position of the bullet
     protected int speed;  // Speed of the bullet
     protected int width = 5, height = 10;  // Bullet dimensions
@@ -12,10 +16,7 @@ public abstract class Bullet {
         return speed;
     }
 
-    public enum BulletOwner {
-        PLAYER,
-        ENEMY
-    }
+
     public abstract void update();  // Abstract method to update the bullet's position
     public abstract void draw(Graphics2D g);  // Abstract method to draw the bullet
     public int getX() {
@@ -43,5 +44,12 @@ public abstract class Bullet {
 
     public BulletOwner getOwner() {
         return owner;  // Return the owner of the bullet
+    }
+
+    public int getDamage() {
+        return damage;  // Return the damage dealt by the bullet
+    }
+    public void setDamage(int damage) {
+        this.damage = damage;  // Set the damage dealt by the bullet
     }
 }

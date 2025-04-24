@@ -201,8 +201,11 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GamePanel() {
         isRunning = false;
-        // currentLevel = new SpaceLevel(1);  // Start with level 1
-        currentLevel = new PlatformLevel(1);  // Start with level 1
+        currentLevel = new SpaceLevel(1);  // Start with level 1
+        // currentLevel = new PlatformLevel(1);  // Start with level 1
+        // currentLevel = new testtLevel();  // Start with level 1
+        // currentLevel = new testtLevel(600, 500, 20);
+        // currentLevel = new PlatformerLevel();
     }
 
     public void run() {

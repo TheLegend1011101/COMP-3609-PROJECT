@@ -4,10 +4,10 @@ import java.awt.Color;
 public class SpaceBullet extends Bullet {
   
 
-    private int x, y, width = 5, height = 10;  // Bullet dimensions
-    private int speed;
-    private BulletOwner owner;  // Owner of the bullet (player or enemy)
-    private int damage;
+    // private int x, y, width = 5, height = 10;  // Bullet dimensions
+    // private int speed;
+    // private BulletOwner owner;  // Owner of the bullet (player or enemy)
+    // private int damage;
 
     public SpaceBullet(int startX, int startY, BulletOwner owner, int damage) {
         this.x = startX;

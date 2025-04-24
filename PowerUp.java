@@ -28,6 +28,12 @@ public class PowerUp {
         g2.fillRect(x, y, width, height); // Draw the power-up as a rectangle
     }
 
+    public int getX() {
+        return x; // Get the x-coordinate
+    }
+    public int getY() {
+        return y; // Get the y-coordinate
+    }
     
 }
 

@@ -10,7 +10,7 @@ public class SpacePlayer extends Player {
 
     // private int width = 50, height = 50;
     // private int bulletsPerShot = 1;
-    private int damage = 10;
+    // private int damage = 10;
     private boolean movingLeft = false;
     private boolean movingRight = false;
     private boolean movingUp = false;
