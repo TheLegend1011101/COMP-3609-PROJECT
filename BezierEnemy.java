@@ -66,12 +66,11 @@
 
 // }
 
-
-
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Color;
+import java.awt.Image;
 
 // public class BezierEnemy extends Enemy {
 
@@ -144,6 +143,8 @@ public class BezierEnemy extends Enemy {
     private Point p0, p1, p2;
     private boolean movingBack = false;
 
+    protected Animation alienAnimation;
+
     public BezierEnemy(int startX, int startY, Level level) {
         super(startX, startY, level);
         image = (BufferedImage)ImageManager.loadBufferedImage("images/enemy-medium.png"); // Load the enemy image
@@ -190,6 +191,27 @@ public class BezierEnemy extends Enemy {
     }
 
     @Override
+    protected void loadAnimation() {
+        alienAnimation = new Animation(true); // Loop the animation
+        Image bezierAlien1 = ImageManager.loadImage("images/space__0002_B1.png"); // Specific images for BezierEnemy
+        Image bezierAlien2 = ImageManager.loadImage("images/space__0003_B2.png");
+        long frameDuration = 180; // Adjust animation speed if needed
+        if (bezierAlien1 != null && bezierAlien2 != null) {
+            alienAnimation.addFrame(bezierAlien1, frameDuration);
+            alienAnimation.addFrame(bezierAlien2, frameDuration);
+            alienAnimation.start();
+        } else {
+            System.err.println("Error loading BezierEnemy animation frames!");
+        }
+    }
+
+    // @Override
+    // public void draw(Graphics2D g2) {
+    // g2.setColor(Color.RED);
+    // g2.fillRect(getX(), getY(), getWidth(), getHeight());
+    // }
+
+    @Override
     public void draw(Graphics2D g2) {
         g2.drawImage(image, getX(), getY(), getWidth(), getHeight(), null); // Draw the enemy image
         // g2.setColor(Color.RED);
@@ -222,6 +244,3 @@ public class BezierEnemy extends Enemy {
         return new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
 }
-
-
-
