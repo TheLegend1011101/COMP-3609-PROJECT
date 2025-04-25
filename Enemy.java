@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.Graphics2D;
 import java.awt.Color;
+import java.awt.Image;
 
 public class Enemy {
     protected int x, y;
@@ -10,21 +11,13 @@ public class Enemy {
     private int speed = 2;
     private int health; // Health of the enemy
     private int damage; // Damage dealt by the enemy
-    // public Enemy(int startX, int startY, int health, int damage) {
-    // this.health = health; // Initialize health
-    // this.x = startX;
-    // this.y = startY;
-    // this.damage = damage; // Initialize damage
-    // }
     private Level level;
     private long lastShotTime = 0; // Time of the last shot
     private List<Bullet> bullets = new ArrayList<>();
+    private Image alienImage;
 
     public Enemy(int startX, int startY, Level level) {
-        this.x = startX; // Set the starting x position
-        this.y = startY; // Set the starting y position
-        this.health = 30; // Default health value
-        this.damage = 10; // Default damage value
+        this(startX, startY);
         this.level = level;
     }
 
@@ -33,6 +26,7 @@ public class Enemy {
         this.y = startY; // Set the starting y position
         this.health = 30; // Default health value
         this.damage = 10; // Default damage value
+        this.alienImage = ImageManager.loadImage("images/Alien.gif"); // Load the alien GIF
     }
 
     public Rectangle getBounds() {
@@ -48,17 +42,11 @@ public class Enemy {
     public void shoot() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastShotTime >= 2000) {
-            // shoot();
             bullets.add(new SpaceBullet(x + width / 2, y + height, Bullet.BulletOwner.ENEMY, damage)); // Create a new
                                                                                                        // bullet
             lastShotTime = currentTime;
         }
         level.addBullets(bullets);
-        // Update bullets
-        // bullets.removeIf(Bullet::isOffScreen);
-        // for (Bullet b : bullets) {
-        // b.update();
-        // }
     }
 
     // Check if the enemy is off-screen
@@ -103,7 +91,11 @@ public class Enemy {
     }
 
     public void draw(Graphics2D g2) {
-        g2.setColor(Color.GREEN); // Set color for the enemy
-        g2.fillRect(x, y, width, height); // Draw the enemy as a rectangle (for simplicity)
+        if (alienImage != null) {
+            g2.drawImage(alienImage, x, y, width, height, null); // Draw the alien image
+        } else {
+            g2.setColor(Color.GREEN); // Set color for the enemy
+            g2.fillRect(x, y, width, height); // Draw the enemy as a rectangle (for simplicity)
+        }
     }
 }

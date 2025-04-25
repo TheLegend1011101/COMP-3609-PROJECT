@@ -9,7 +9,7 @@ public abstract class Bullet {
     protected int width = 5, height = 10; // Bullet dimensions
     protected BulletOwner owner; // Owner of the bullet (player or enemy)
     protected int damage; // Damage dealt by the bullet
-
+    
     public int getSpeed() {
         return speed;
     }
