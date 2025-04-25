@@ -187,43 +187,70 @@ public class SpaceLevel extends Level {
         checkBulletCollisions();
         checkPowerUpCollisions();
     }
-
     private void checkBulletCollisions() {
-        // System.out.println("--- Checking collisions ---");
-        // System.out.println("Bullets: " + bullets.size());
-        // System.out.println("Enemies: " + enemies.size());
-        
-        List<Enemy> enemiesToRemove = new ArrayList<>();
-        List<Bullet> bulletsToRemove = new ArrayList<>();
-
-        for (Bullet bullet : bullets) {
+        Iterator<Bullet> bulletIterator = bullets.iterator();
+        while (bulletIterator.hasNext()) {
+            Bullet bullet = bulletIterator.next();
+            
             if (bullet.getOwner() == Bullet.BulletOwner.PLAYER) {
-                for (Enemy enemy : enemies) {
+                Iterator<Enemy> enemyIterator = enemies.iterator();
+                while (enemyIterator.hasNext()) {
+                    Enemy enemy = enemyIterator.next();
                     if (bullet.getBounds().intersects(enemy.getBounds())) {
-                        // System.out.println("Player bullet hit enemy!");
-                        bulletsToRemove.add(bullet);
                         enemy.setHealth(enemy.getHealth() - bullet.getDamage());
-
+                        bulletIterator.remove(); // Remove bullet immediately
+                        
                         if (enemy.getHealth() <= 0) {
-                            enemiesToRemove.add(enemy);
+                            enemyIterator.remove(); // Remove enemy immediately
                         }
-                        break;
+                        break; // Exit enemy loop after first hit
                     }
                 }
-            } else if (bullet.getOwner() == Bullet.BulletOwner.ENEMY) {
+            } 
+            else if (bullet.getOwner() == Bullet.BulletOwner.ENEMY) {
                 if (bullet.getBounds().intersects(player.getBounds())) {
-                    // System.out.println("ENEMY BULLET HIT PLAYER!");
-                    bulletsToRemove.add(bullet);
                     player.takeDamage(bullet.getDamage());
-                    break;
+                    bulletIterator.remove(); // Remove bullet immediately
                 }
             }
         }
-    
-        // System.out.println("Bullets to remove: " + bulletsToRemove.size());
-        bullets.removeAll(bulletsToRemove);
-        enemies.removeAll(enemiesToRemove);
     }
+    // private void checkBulletCollisions() {
+    //     // System.out.println("--- Checking collisions ---");
+    //     // System.out.println("Bullets: " + bullets.size());
+    //     // System.out.println("Enemies: " + enemies.size());
+        
+    //     List<Enemy> enemiesToRemove = new ArrayList<>();
+    //     List<Bullet> bulletsToRemove = new ArrayList<>();
+
+    //     for (Bullet bullet : bullets) {
+    //         if (bullet.getOwner() == Bullet.BulletOwner.PLAYER) {
+    //             for (Enemy enemy : enemies) {
+    //                 if (bullet.getBounds().intersects(enemy.getBounds())) {
+    //                     // System.out.println("Player bullet hit enemy!");
+    //                     bulletsToRemove.add(bullet);
+    //                     enemy.setHealth(enemy.getHealth() - bullet.getDamage());
+
+    //                     if (enemy.getHealth() <= 0) {
+    //                         enemiesToRemove.add(enemy);
+    //                     }
+    //                     break;
+    //                 }
+    //             }
+    //         } else if (bullet.getOwner() == Bullet.BulletOwner.ENEMY) {
+    //             if (bullet.getBounds().intersects(player.getBounds())) {
+    //                 // System.out.println("ENEMY BULLET HIT PLAYER!");
+    //                 bulletsToRemove.add(bullet);
+    //                 player.takeDamage(bullet.getDamage());
+    //                 break;
+    //             }
+    //         }
+    //     }
+    
+    //     // System.out.println("Bullets to remove: " + bulletsToRemove.size());
+    //     bullets.removeAll(bulletsToRemove);
+    //     enemies.removeAll(enemiesToRemove);
+    // }
 
     private void checkPowerUpCollisions() {
         List<PowerUp> powerUpsToRemove = new ArrayList<>();
