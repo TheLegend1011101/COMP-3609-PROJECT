@@ -36,6 +36,16 @@ public class SoundManager { // a Singleton class
 
 		clip = loadClip("sounds/spaceship_shooter.wav");
 		clips.put("background", clip); // played when player shoots
+
+		clip = loadClip("sounds/fastinvader3.wav");
+		clips.put("hit", clip); // played when player shoots
+
+		clip = loadClip("sounds/power-up.wav");
+		clips.put("powerup", clip); // played when player shoots
+
+		clip = loadClip("sounds/die.wav");
+		clips.put("die", clip); // played when player shoots
+
 	}
 
 	public static SoundManager getInstance() { // class method to get Singleton instance

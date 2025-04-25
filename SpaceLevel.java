@@ -1,5 +1,4 @@
 
-
 // // import java.awt.Graphics2D;
 // // import java.util.List;
 // // import java.util.ArrayList;
@@ -46,17 +45,17 @@
 // //         powerUps.add(new BulletUpPowerUp(100, 100));
 // //         powerUps.add(new BulletDownPowerUp(200, 100));
 // //     }
-    
+
 // //     private void setupBackground() {
 // //         // Initialize with default speed (1)
 // //         backgroundManager = new BackgroundManager(gamePanel, 1);
-        
+
 // //         // Level-specific background settings
 // //         switch(levelNumber) {
 // //             case 1:
 // //                 // Default background (already set)
 // //                 break;
-                
+
 // //             case 2:
 // //                 String[] redBackgroundImages = {
 // //                     "images/T_RedBackground_Version4_Layer1.png",
@@ -67,7 +66,7 @@
 // //                 backgroundManager.setImages(redBackgroundImages);
 // //                 // backgroundManager.setSpeed(2); // Faster speed for level 2 if desired
 // //                 break;
-                
+
 // //             case 3:
 // //                 // Example for level 3 - could use different images
 // //                 // String[] blueBackgroundImages = {
@@ -83,7 +82,7 @@
 // //                 };
 // //                 backgroundManager.setImages(purpleBackGroundImages);
 // //                 break;
-                
+
 // //             default:
 // //                 // Default background for any other levels
 // //                 break;
@@ -201,7 +200,7 @@
 // //     //     Iterator<Bullet> bulletIterator = bullets.iterator();
 // //     //     while (bulletIterator.hasNext()) {
 // //     //         Bullet bullet = bulletIterator.next();
-            
+
 // //     //         if (bullet.getOwner() == Bullet.BulletOwner.PLAYER) {
 // //     //             Iterator<Enemy> enemyIterator = enemies.iterator();
 // //     //             while (enemyIterator.hasNext()) {
@@ -209,7 +208,7 @@
 // //     //                 if (bullet.getBounds().intersects(enemy.getBounds())) {
 // //     //                     enemy.setHealth(enemy.getHealth() - bullet.getDamage());
 // //     //                     bulletIterator.remove(); // Remove bullet immediately
-                        
+
 // //     //                     if (enemy.getHealth() <= 0) {
 // //     //                         enemyIterator.remove(); // Remove enemy immediately
 // //     //                     }
@@ -229,7 +228,7 @@
 // //         // System.out.println("--- Checking collisions ---");
 // //         // System.out.println("Bullets: " + bullets.size());
 // //         // System.out.println("Enemies: " + enemies.size());
-        
+
 // //         List<Enemy> enemiesToRemove = new ArrayList<>();
 // //         List<Bullet> bulletsToRemove = new ArrayList<>();
 
@@ -256,7 +255,7 @@
 // //                 }
 // //             }
 // //         }
-    
+
 // //         // System.out.println("Bullets to remove: " + bulletsToRemove.size());
 // //         bullets.removeAll(bulletsToRemove);
 // //         enemies.removeAll(enemiesToRemove);
@@ -389,7 +388,7 @@
 // //         int centerX = 300;  // Center of 600px wide screen
 // //         int centerY = 250;  // Center of 500px tall screen
 // //         int radius = 100;   // Circle radius
-        
+
 // //         // Create one circular enemy with spinning motion
 // //         CircularEnemy enemy = new CircularEnemy(centerX, centerY, this, radius);
 // //         enemy.setAngularSpeed(2); // Slightly slower than default
@@ -401,17 +400,17 @@
 // //         enemies.clear();
 // //         bullets.clear();
 // //         powerUps.clear();
-        
+
 // //         // Increment level number
 // //         levelNumber++;
-        
+
 // //         // Re-initialize the level with new background
 // //         initializeLevel();
-        
+
 // //         // Reset completion flags
 // //         levelCompleted = false;
 // //         showingCompletionText = false;
-        
+
 // //         // Notify GamePanel to update (if needed)
 // //         gamePanel.repaint();
 // //     }
@@ -428,7 +427,6 @@
 // //         levelNumber = 1;
 // //     }
 // // }
-
 
 // import java.awt.Graphics2D;
 // import java.util.List;
@@ -487,12 +485,12 @@
 //         if (powerUps.size() >= MAX_POWERUPS_ON_SCREEN) {
 //             return;
 //         }
-        
+
 //         // Random chance to spawn (adjust probability as needed)
 //         if (Math.random() < 0.05) { // 2% chance per frame
 //             int x = (int)(Math.random() * (image.getWidth() - 50)) + 25; // Random x position (avoid edges)
 //             int y = (int)(Math.random() * 100); // Spawn near top of screen
-            
+
 //             // 2:1 ratio favoring bullet-ups (66% chance)
 //             PowerUp powerUp;
 //             if (Math.random() < 0.66) {
@@ -500,14 +498,14 @@
 //             } else {
 //                 powerUp = new BulletDownPowerUp(x, y);
 //             }
-            
+
 //             powerUps.add(powerUp);
 //         }
 //     }
-    
+
 //     private void setupBackground() {
 //         backgroundManager = new BackgroundManager(gamePanel, 1);
-        
+
 //         switch(levelNumber) {
 //             case 1:
 //                 break;
@@ -559,7 +557,7 @@
 //     //         }
 //     //         return;
 //     //     }
-        
+
 //     //     if (gameOver && waitingForRestart) {
 //     //         return;
 //     //     }
@@ -592,9 +590,9 @@
 //             }
 //             return;
 //         }
-        
+
 //         // ... [keep all existing code at start of update] ...
-        
+
 //         backgroundManager.moveDown();
 //         player.update();
 //         updateBullets();
@@ -666,7 +664,7 @@
 //         Iterator<Bullet> bulletIterator = bullets.iterator();
 //         while (bulletIterator.hasNext()) {
 //             Bullet bullet = bulletIterator.next();
-            
+
 //             if (bullet.getOwner() == Bullet.BulletOwner.PLAYER) {
 //                 Iterator<Enemy> enemyIterator = enemies.iterator();
 //                 while (enemyIterator.hasNext()) {
@@ -711,7 +709,7 @@
 //         String victoryText = "GENOCIDE COMPLETE!";
 //         int textWidth = g2.getFontMetrics().stringWidth(victoryText);
 //         g2.drawString(victoryText, (image.getWidth() - textWidth)/2, image.getHeight()/2 - 60);
-        
+
 //         g2.setColor(Color.ORANGE);
 //         g2.setFont(new Font("Arial", Font.PLAIN, 24));
 //         String[] messages = {
@@ -721,7 +719,7 @@
 //             "But hey, at least you had fun!",
 //             "Restarting in: " + (8000 - (System.currentTimeMillis() - gameWonTime))/1000 + "s"
 //         };
-        
+
 //         for (int i = 0; i < messages.length; i++) {
 //             int width = g2.getFontMetrics().stringWidth(messages[i]);
 //             g2.drawString(messages[i], (image.getWidth() - width)/2, image.getHeight()/2 + i*30);
@@ -731,7 +729,7 @@
 //     public void draw(Graphics2D g2) {
 //         Graphics2D imageContext = (Graphics2D) image.getGraphics();
 //         imageContext.clearRect(0, 0, image.getWidth(), image.getHeight());
-        
+
 //         if (!showingVictoryText) {
 //             backgroundManager.draw(imageContext);
 //         } else {
@@ -856,7 +854,7 @@
 //             SoundManager.getInstance().playSound("victory", false);
 //             return;
 //         }
-        
+
 //         enemies.clear();
 //         bullets.clear();
 //         powerUps.clear();
@@ -879,8 +877,6 @@
 //         showingCompletionText = false;
 //     }
 // }
-
-
 import java.awt.Graphics2D;
 import java.util.List;
 import java.util.ArrayList;
@@ -911,6 +907,7 @@ public class SpaceLevel extends Level {
     private boolean gameWon = false;
     private long gameWonTime;
     private boolean showingVictoryText = false;
+    private boolean deathSoundPlayed = false;
 
     public SpaceLevel(int levelNumber, GamePanel gamePanel) {
         image = new BufferedImage(600, 500, BufferedImage.TYPE_INT_RGB);
@@ -932,17 +929,19 @@ public class SpaceLevel extends Level {
     }
 
     private void maybeSpawnPowerUp() {
-        if (levelCompleted || gameOver || gameWon) return;
+        if (levelCompleted || gameOver || gameWon)
+            return;
 
-        if (powerUps.size() >= MAX_POWERUPS_ON_SCREEN) return;
+        if (powerUps.size() >= MAX_POWERUPS_ON_SCREEN)
+            return;
 
         if (Math.random() < 0.02) {
-            int x = (int)(Math.random() * (image.getWidth() - 50)) + 25;
-            int y = (int)(Math.random() * 100);
+            int x = (int) (Math.random() * (image.getWidth() - 50)) + 25;
+            int y = (int) (Math.random() * 100);
 
             PowerUp powerUp = (Math.random() < 0.66)
-                ? new BulletUpPowerUp(x, y)
-                : new BulletDownPowerUp(x, y);
+                    ? new BulletUpPowerUp(x, y)
+                    : new BulletDownPowerUp(x, y);
 
             powerUps.add(powerUp);
         }
@@ -951,21 +950,21 @@ public class SpaceLevel extends Level {
     private void setupBackground() {
         backgroundManager = new BackgroundManager(gamePanel, 1);
 
-        switch(levelNumber) {
+        switch (levelNumber) {
             case 2:
                 backgroundManager.setImages(new String[] {
-                    "images/T_RedBackground_Version4_Layer1.png",
-                    "images/T_RedBackground_Version4_Layer2.png",
-                    "images/T_RedBackground_Version4_Layer3.png",
-                    "images/T_RedBackground_Version4_Layer4.png"
+                        "images/T_RedBackground_Version4_Layer1.png",
+                        "images/T_RedBackground_Version4_Layer2.png",
+                        "images/T_RedBackground_Version4_Layer3.png",
+                        "images/T_RedBackground_Version4_Layer4.png"
                 });
                 break;
             case 3:
                 backgroundManager.setImages(new String[] {
-                    "images/T_PurpleBackground_Version4_Layer1.png",
-                    "images/T_PurpleBackground_Version4_Layer2.png",
-                    "images/T_PurpleBackground_Version4_Layer3.png",
-                    "images/T_PurpleBackground_Version4_Layer4.png"
+                        "images/T_PurpleBackground_Version4_Layer1.png",
+                        "images/T_PurpleBackground_Version4_Layer2.png",
+                        "images/T_PurpleBackground_Version4_Layer3.png",
+                        "images/T_PurpleBackground_Version4_Layer4.png"
                 });
                 break;
         }
@@ -996,7 +995,8 @@ public class SpaceLevel extends Level {
             return;
         }
 
-        if (gameOver && waitingForRestart) return;
+        if (gameOver && waitingForRestart)
+            return;
 
         if (levelCompleted) {
             if (showingCompletionText && System.currentTimeMillis() - levelCompleteTime >= 5000) {
@@ -1009,6 +1009,11 @@ public class SpaceLevel extends Level {
             gameOver = true;
             waitingForRestart = true;
             gameOverTime = System.currentTimeMillis();
+            if (!deathSoundPlayed) {
+                SoundManager.getInstance().playSound("die", false); // Play die sound
+                deathSoundPlayed = true;
+                SoundManager.getInstance().stopSound("background"); // Stop background music on death
+            }
             return;
         }
 
@@ -1045,6 +1050,11 @@ public class SpaceLevel extends Level {
                     gameOver = true;
                     waitingForRestart = true;
                     gameOverTime = System.currentTimeMillis();
+                    if (!deathSoundPlayed) {
+                        SoundManager.getInstance().playSound("die", false); // Play die sound
+                        deathSoundPlayed = true;
+                        SoundManager.getInstance().stopSound("background"); // Stop background music on death
+                    }
                 }
             }
         }
@@ -1056,7 +1066,7 @@ public class SpaceLevel extends Level {
             PowerUp p = it.next();
             p.update();
             if (p.getX() < 0 || p.getX() > image.getWidth() ||
-                p.getY() < 0 || p.getY() > image.getHeight()) {
+                    p.getY() < 0 || p.getY() > image.getHeight()) {
                 it.remove();
             }
         }
@@ -1088,6 +1098,7 @@ public class SpaceLevel extends Level {
             } else if (bullet.getOwner() == Bullet.BulletOwner.ENEMY) {
                 if (bullet.getBounds().intersects(player.getBounds())) {
                     player.takeDamage(bullet.getDamage());
+                    SoundManager.getInstance().playSound("hit", false); // Play hit sound
                     it.remove();
                 }
             }
@@ -1101,8 +1112,10 @@ public class SpaceLevel extends Level {
             if (p.getBounds().intersects(player.getBounds())) {
                 if (p instanceof BulletUpPowerUp) {
                     player.setBulletsPerShot(player.getBulletsPerShot() + 1);
+                    SoundManager.getInstance().playSound("powerup", false); // Play power-up sound
                 } else if (p instanceof BulletDownPowerUp) {
                     player.setBulletsPerShot(Math.max(1, player.getBulletsPerShot() - 1));
+                    SoundManager.getInstance().playSound("powerdown", false); // Play power-down sound
                 }
                 it.remove();
             }
@@ -1119,11 +1132,11 @@ public class SpaceLevel extends Level {
         g2.setColor(Color.ORANGE);
         g2.setFont(new Font("Arial", Font.PLAIN, 24));
         String[] lines = {
-            "You've exterminated an entire alien civilization",
-            "Millions of lives ended by your hand",
-            "Was it worth it? Probably not.",
-            "But hey, at least you had fun!",
-            "Restarting in: " + (8000 - (System.currentTimeMillis() - gameWonTime)) / 1000 + "s"
+                "You've exterminated an entire alien civilization",
+                "Millions of lives ended by your hand",
+                "Was it worth it? Probably not.",
+                "But hey, at least you had fun!",
+                "Restarting in: " + (8000 - (System.currentTimeMillis() - gameWonTime)) / 1000 + "s"
         };
         for (int i = 0; i < lines.length; i++) {
             int lineWidth = g2.getFontMetrics().stringWidth(lines[i]);
@@ -1163,7 +1176,8 @@ public class SpaceLevel extends Level {
             g.drawString(text, (image.getWidth() - width) / 2, image.getHeight() / 2);
 
             g.setFont(new Font("Arial", Font.PLAIN, 24));
-            String countdown = "Next level in: " + ((5000 - (System.currentTimeMillis() - levelCompleteTime)) / 1000 + 1) + "s";
+            String countdown = "Next level in: "
+                    + ((5000 - (System.currentTimeMillis() - levelCompleteTime)) / 1000 + 1) + "s";
             int cwidth = g.getFontMetrics().stringWidth(countdown);
             g.drawString(countdown, (image.getWidth() - cwidth) / 2, image.getHeight() / 2 + 50);
         }
@@ -1173,7 +1187,7 @@ public class SpaceLevel extends Level {
             List<Bullet> bulletsCopy = new ArrayList<>(bullets);
             List<Enemy> enemiesCopy = new ArrayList<>(enemies);
             List<PowerUp> powerUpsCopy = new ArrayList<>(powerUps);
-    
+
             player.draw(g);
             bulletsCopy.forEach(b -> b.draw(g));
             enemiesCopy.forEach(e -> e.draw(g));
@@ -1278,5 +1292,6 @@ public class SpaceLevel extends Level {
         showingCompletionText = false;
         gameWon = false;
         showingVictoryText = false;
+        SoundManager.getInstance().playSound("background", true); // Restart background music
     }
 }
