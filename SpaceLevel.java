@@ -52,7 +52,7 @@
 
 //     public void update() {
 //         if (levelCompleted) return;
-    
+
 //         // Update all entities
 //         player.update();
 //         if(player.getBounds().intersects(enemies.get(0).getBounds())){
@@ -61,10 +61,10 @@
 //         updateBullets();
 //         updateEnemies();
 //         updatePowerUps();
-    
+
 //         // Check collisions
 //         checkCollisions();
-        
+
 //         // Check level completion
 //         checkLevelCompletion();
 //     }
@@ -74,7 +74,7 @@
 //         while (bulletIterator.hasNext()) {
 //             Bullet bullet = bulletIterator.next();
 //             bullet.update();
-            
+
 //             // Remove bullets that are out of bounds
 //             if (bullet.getX() < 0 || bullet.getX() > image.getWidth() ||
 //                 bullet.getY() < 0 || bullet.getY() > image.getHeight()) {
@@ -94,7 +94,7 @@
 //         while (powerUpIterator.hasNext()) {
 //             PowerUp powerUp = powerUpIterator.next();
 //             powerUp.update();
-            
+
 //             // Remove power-ups that are out of bounds
 //             if (powerUp.getX() < 0 || powerUp.getX() > image.getWidth() ||
 //                 powerUp.getY() < 0 || powerUp.getY() > image.getHeight()) {
@@ -111,7 +111,7 @@
 //     private void checkBulletCollisions() {
 //         List<Enemy> enemiesToRemove = new ArrayList<>();
 //         List<Bullet> bulletsToRemove = new ArrayList<>();
-    
+
 //         for (Bullet bullet : bullets) {
 //             // System.out.println(bullet.getOwner());
 //             // Player bullet hits enemy
@@ -121,7 +121,7 @@
 //                         System.out.println("Player bullet hit enemy!");
 //                         enemy.setHealth(enemy.getHealth() - bullet.getDamage());
 //                         bulletsToRemove.add(bullet);
-                        
+
 //                         if (enemy.getHealth() <= 0) {
 //                             enemiesToRemove.add(enemy);
 //                         }
@@ -137,7 +137,7 @@
 //                 }
 //             }
 //         }
-    
+
 //         // Perform removals after iteration
 //         enemies.removeAll(enemiesToRemove);
 //         bullets.removeAll(bulletsToRemove);
@@ -145,7 +145,7 @@
 
 //     private void checkPowerUpCollisions() {
 //         List<PowerUp> powerUpsToRemove = new ArrayList<>();
-        
+
 //         for (PowerUp powerUp : powerUps) {
 //             if (powerUp.getBounds().intersects(player.getBounds())) {
 //                 if (powerUp instanceof BulletUpPowerUp) {
@@ -156,14 +156,14 @@
 //                 powerUpsToRemove.add(powerUp);
 //             }
 //         }
-        
+
 //         powerUps.removeAll(powerUpsToRemove);
 //     }
 
 //     public void draw(Graphics2D g2) {
 //         Graphics2D imageContext = (Graphics2D) image.getGraphics();
 //         imageContext.clearRect(0, 0, image.getWidth(), image.getHeight());
-    
+
 //         // Draw all entities
 //         player.draw(imageContext);
 //         for (Bullet bullet : bullets) {
@@ -175,7 +175,7 @@
 //         for (PowerUp powerUp : powerUps) {
 //             powerUp.draw(imageContext);
 //         }
-    
+
 //         g2.drawImage(image, 0, 0, null);
 //         imageContext.dispose();
 //     }
@@ -247,9 +247,6 @@
 //     }
 // }
 
-
-
-
 import java.awt.Graphics2D;
 import java.util.List;
 import java.util.ArrayList;
@@ -294,7 +291,7 @@ public class SpaceLevel extends Level {
     }
 
     private void spawnEnemies() {
-        if(levelNumber == 1) {
+        if (levelNumber == 1) {
             spawnBezierEnemies(0);
             spawnSineWaveEnemies(50);
             spawnSineWaveEnemies(-150);
@@ -329,10 +326,10 @@ public class SpaceLevel extends Level {
         updateBullets();
         updateEnemies();
         updatePowerUps();
-    
+
         // Check collisions
         checkCollisions();
-        
+
         // Check level completion
         checkLevelCompletion();
     }
@@ -342,10 +339,10 @@ public class SpaceLevel extends Level {
         while (bulletIterator.hasNext()) {
             Bullet bullet = bulletIterator.next();
             bullet.update();
-            
+
             // Remove bullets that are out of bounds
             if (bullet.getX() < 0 || bullet.getX() > image.getWidth() ||
-                bullet.getY() < 0 || bullet.getY() > image.getHeight()) {
+                    bullet.getY() < 0 || bullet.getY() > image.getHeight()) {
                 bulletIterator.remove();
             }
         }
@@ -353,7 +350,7 @@ public class SpaceLevel extends Level {
 
     private String getRemainingTimeText() {
         long elapsed = System.currentTimeMillis() - levelCompleteTime;
-        int remaining = (int)((5000 - elapsed) / 1000) + 1; // Round up
+        int remaining = (int) ((5000 - elapsed) / 1000) + 1; // Round up
         return "Next level in: " + remaining + "s";
     }
 
@@ -362,13 +359,13 @@ public class SpaceLevel extends Level {
         while (enemyIterator.hasNext()) {
             Enemy enemy = enemyIterator.next();
             enemy.update();
-            
+
             // Remove enemies that exit the bottom of the screen and damage player
             if (enemy.getY() > image.getHeight()) {
                 enemyIterator.remove();
                 player.setHealth(player.getHealth() - 10); // Damage player when enemy escapes
                 System.out.println("Enemy escaped! Player health: " + player.getHealth());
-                
+
                 // Check if player died from the damage
                 if (player.getHealth() <= 0) {
                     // Handle player death (you might want to add game over logic here)
@@ -382,10 +379,10 @@ public class SpaceLevel extends Level {
         while (powerUpIterator.hasNext()) {
             PowerUp powerUp = powerUpIterator.next();
             powerUp.update();
-            
+
             // Remove power-ups that are out of bounds
             if (powerUp.getX() < 0 || powerUp.getX() > image.getWidth() ||
-                powerUp.getY() < 0 || powerUp.getY() > image.getHeight()) {
+                    powerUp.getY() < 0 || powerUp.getY() > image.getHeight()) {
                 powerUpIterator.remove();
             }
         }
@@ -399,7 +396,7 @@ public class SpaceLevel extends Level {
     private void checkBulletCollisions() {
         List<Enemy> enemiesToRemove = new ArrayList<>();
         List<Bullet> bulletsToRemove = new ArrayList<>();
-    
+
         for (Bullet bullet : bullets) {
             // Player bullet hits enemy
             if (bullet.getOwner() == Bullet.BulletOwner.PLAYER) {
@@ -407,7 +404,7 @@ public class SpaceLevel extends Level {
                     if (bullet.getBounds().intersects(enemy.getBounds())) {
                         enemy.setHealth(enemy.getHealth() - bullet.getDamage());
                         bulletsToRemove.add(bullet);
-                        
+
                         if (enemy.getHealth() <= 0) {
                             enemiesToRemove.add(enemy);
                         }
@@ -423,7 +420,7 @@ public class SpaceLevel extends Level {
                 }
             }
         }
-    
+
         // Perform removals after iteration
         enemies.removeAll(enemiesToRemove);
         bullets.removeAll(bulletsToRemove);
@@ -431,7 +428,7 @@ public class SpaceLevel extends Level {
 
     private void checkPowerUpCollisions() {
         List<PowerUp> powerUpsToRemove = new ArrayList<>();
-        
+
         for (PowerUp powerUp : powerUps) {
             if (powerUp.getBounds().intersects(player.getBounds())) {
                 if (powerUp instanceof BulletUpPowerUp) {
@@ -442,7 +439,7 @@ public class SpaceLevel extends Level {
                 powerUpsToRemove.add(powerUp);
             }
         }
-        
+
         powerUps.removeAll(powerUpsToRemove);
     }
 
@@ -472,7 +469,7 @@ public class SpaceLevel extends Level {
         for (PowerUp powerUp : powerUps) {
             powerUp.draw(imageContext);
         }
-    
+
         // Draw level completion text if needed
         if (showingCompletionText) {
             // Draw "LEVEL COMPLETED" text
@@ -480,15 +477,16 @@ public class SpaceLevel extends Level {
             imageContext.setFont(new Font("Arial", Font.BOLD, 36));
             String completedText = "LEVEL " + levelNumber + " COMPLETED!";
             int textWidth = imageContext.getFontMetrics().stringWidth(completedText);
-            imageContext.drawString(completedText, (image.getWidth() - textWidth)/2, image.getHeight()/2);
-            
+            imageContext.drawString(completedText, (image.getWidth() - textWidth) / 2, image.getHeight() / 2);
+
             // Draw countdown text below it
             imageContext.setFont(new Font("Arial", Font.PLAIN, 24));
-            String countdownText = "Next level in: " + ((5000 - (System.currentTimeMillis() - levelCompleteTime))/1000 + 1) + "s";
+            String countdownText = "Next level in: "
+                    + ((5000 - (System.currentTimeMillis() - levelCompleteTime)) / 1000 + 1) + "s";
             int countdownWidth = imageContext.getFontMetrics().stringWidth(countdownText);
-            imageContext.drawString(countdownText, (image.getWidth() - countdownWidth)/2, image.getHeight()/2 + 50);
+            imageContext.drawString(countdownText, (image.getWidth() - countdownWidth) / 2, image.getHeight() / 2 + 50);
         }
-    
+
         g2.drawImage(image, 0, 0, null);
         imageContext.dispose();
     }
@@ -537,21 +535,21 @@ public class SpaceLevel extends Level {
         return null;
     }
 
-    public void spawnSineWaveEnemies(int y){
+    public void spawnSineWaveEnemies(int y) {
         for (int i = 0; i < 4; i++) {
             enemies.add(new SineWaveEnemy(150 * i + 55, y, this));
         }
     }
 
-    public void spawnBezierEnemies(int y){
+    public void spawnBezierEnemies(int y) {
         for (int i = 0; i < 3; i++) {
             enemies.add(new BezierEnemy(150 * i + 55, y, this));
         }
     }
-    
-    public void spawnCircularEnemies(int y){
+
+    public void spawnCircularEnemies(int y) {
         for (int i = 0; i < 4; i++) {
-            enemies.add(new CircularEnemy(150 * i + 55, y, this));
+            enemies.add(new CircularEnemy(i, y, null, i, y, i));
         }
     }
 
