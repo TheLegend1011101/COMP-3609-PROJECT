@@ -270,6 +270,9 @@ public class SpaceLevel extends Level {
     private GamePanel gamePanel;
     private long levelCompleteTime; // Time when level was completed
     private boolean showingCompletionText; // Flag for showing completion text
+    private boolean gameOver;
+    private boolean waitingForRestart;
+    private long gameOverTime;
     
     public SpaceLevel(int levelNumber, GamePanel gamePanel) {
         image = new BufferedImage(600, 500, BufferedImage.TYPE_INT_RGB);
@@ -304,6 +307,9 @@ public class SpaceLevel extends Level {
     }
 
     public void update() {
+        if (gameOver && waitingForRestart) {
+            return; // Stop all updates
+        }
         if (levelCompleted) {
             // Check if we should proceed to next level after completion text
             if (showingCompletionText && System.currentTimeMillis() - levelCompleteTime >= 5000) {
@@ -312,6 +318,12 @@ public class SpaceLevel extends Level {
             return;
         }
     
+        if (player.getHealth() <= 0 && !gameOver) {
+            gameOver = true;
+            waitingForRestart = true;
+            gameOverTime = System.currentTimeMillis();
+            return;
+        }
         // Update all entities
         player.update();
         updateBullets();
@@ -437,7 +449,18 @@ public class SpaceLevel extends Level {
     public void draw(Graphics2D g2) {
         Graphics2D imageContext = (Graphics2D) image.getGraphics();
         imageContext.clearRect(0, 0, image.getWidth(), image.getHeight());
-    
+        if (gameOver) {
+            imageContext.setColor(Color.RED);
+            imageContext.setFont(new Font("Arial", Font.BOLD, 36));
+            String gameOverText = "GAME OVER";
+            int textWidth = imageContext.getFontMetrics().stringWidth(gameOverText);
+            imageContext.drawString(gameOverText, (image.getWidth() - textWidth)/2, image.getHeight()/2 - 50);
+            
+            imageContext.setFont(new Font("Arial", Font.PLAIN, 24));
+            String restartText = "Press any key to restart";
+            int restartWidth = imageContext.getFontMetrics().stringWidth(restartText);
+            imageContext.drawString(restartText, (image.getWidth() - restartWidth)/2, image.getHeight()/2 + 20);
+        }
         // Draw all entities
         player.draw(imageContext);
         for (Bullet bullet : bullets) {
@@ -499,6 +522,10 @@ public class SpaceLevel extends Level {
     }
 
     public void handleKeyPress(KeyEvent e) {
+        if (waitingForRestart) {
+            restartGame();
+            return;
+        }
         player.handleKeyPress(e);
     }
 
@@ -530,5 +557,17 @@ public class SpaceLevel extends Level {
 
     public void endLevel() {
         gamePanel.nextLevel();
+    }
+
+    private void restartGame() {
+        gameOver = false;
+        waitingForRestart = false;
+        enemies.clear();
+        bullets.clear();
+        powerUps.clear();
+        initializeLevel();
+        levelCompleted = false;
+        showingCompletionText = false;
+        levelNumber = 1;
     }
 }
