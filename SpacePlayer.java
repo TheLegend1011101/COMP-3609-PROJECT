@@ -53,9 +53,10 @@ public class SpacePlayer extends Player {
             g2.fillRect(x, y, width, height); // Draw flashing rectangle
         } else {
             g2.drawImage(image, x, y, null); // Draw the player image
+            g2.setColor(Color.BLUE);
+            g2.fillRect(x, y, width, height);
         }
-        g2.setColor(Color.BLUE);
-        g2.fillRect(x, y, width, height);
+
     }
 
     public void setMovingLeft(boolean movingLeft) {
@@ -184,7 +185,7 @@ public class SpacePlayer extends Player {
 
     public void takeDamage(int amount) {
         health -= amount;
-    
+        System.out.println("Player took damage: " + amount);  // Log the damage taken
         // Start flashing
         flashing = true;
         flashTimer = flashDuration;

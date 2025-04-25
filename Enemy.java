@@ -163,6 +163,7 @@ public class Enemy {
     }
 
     public void shoot() {
+        bullets.clear(); // Clear the bullets list before adding new ones
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastShotTime >= 2000) {
             bullets.add(new SpaceBullet(x + width / 2, y + height, Bullet.BulletOwner.ENEMY, damage)); // Create a new

@@ -104,8 +104,7 @@ public class SpaceLevel extends Level {
             bullet.update();
 
             // Remove bullets that are out of bounds
-            if (bullet.getX() < 0 || bullet.getX() > image.getWidth() ||
-                    bullet.getY() < 0 || bullet.getY() > image.getHeight()) {
+            if (bullet.getY() < 0 || bullet.getY() > image.getHeight()) {
                 bulletIterator.remove();
             }
         }
@@ -156,18 +155,100 @@ public class SpaceLevel extends Level {
         checkPowerUpCollisions();
     }
 
+    // private void checkBulletCollisions() {
+    //     List<Enemy> enemiesToRemove = new ArrayList<>();
+    //     List<Bullet> bulletsToRemove = new ArrayList<>();
+
+    //     for (Bullet bullet : bullets) {
+    //         // Player bullet hits enemy
+    //         if (bullet.getOwner() == Bullet.BulletOwner.PLAYER) {
+    //             for (Enemy enemy : enemies) {
+    //                 if (bullet.getBounds().intersects(enemy.getBounds())) {
+    //                     enemy.setHealth(enemy.getHealth() - bullet.getDamage());
+    //                     bulletsToRemove.add(bullet);
+
+    //                     if (enemy.getHealth() <= 0) {
+    //                         enemiesToRemove.add(enemy);
+    //                     }
+    //                     break;
+    //                 }
+    //             }
+    //         }
+    //         // Enemy bullet hits player
+    //         else if (bullet.getOwner() == Bullet.BulletOwner.ENEMY) {
+    //             if (bullet.getBounds().intersects(player.getBounds())) {
+    //                 // player.setHealth(player.getHealth() - bullet.getDamage());
+    //                 System.out.println("Player hit by enemy bullet! Health: " + player.getHealth());
+    //                 player.takeDamage(bullet.getDamage());
+    //                 bulletsToRemove.add(bullet);
+    //             }
+    //         }
+    //     }
+
+    //     // Perform removals after iteration
+    //     enemies.removeAll(enemiesToRemove);
+    //     bullets.removeAll(bulletsToRemove);
+    // }
+
+    // private void checkBulletCollisions() {
+    //     List<Enemy> enemiesToRemove = new ArrayList<>();
+    //     List<Bullet> bulletsToRemove = new ArrayList<>();
+    
+    //     for (Bullet bullet : bullets) {
+    //         // Player bullet hits enemy
+    //         if (bullet.getOwner() == Bullet.BulletOwner.PLAYER) {
+    //             for (Enemy enemy : enemies) {
+    //                 if (bullet.getBounds().intersects(enemy.getBounds())) {
+    //                     enemy.setHealth(enemy.getHealth() - bullet.getDamage());
+    //                     bulletsToRemove.add(bullet);
+    
+    //                     if (enemy.getHealth() <= 0) {
+    //                         enemiesToRemove.add(enemy);
+    //                     }
+    //                     break;
+    //                 }
+    //             }
+    //         }
+    //         // Enemy bullet hits player
+    //         else if (bullet.getOwner() == Bullet.BulletOwner.ENEMY) {
+    //             if(player.getBounds().intersects(bullet.getBounds())) {
+    //                 // player.setHealth(player.getHealth() - bullet.getDamage());
+    //                 System.out.println("Player hit by enemy bullet! Health: " + player.getHealth());
+    //                 player.takeDamage(bullet.getDamage());
+    //                 bulletsToRemove.add(bullet);
+    //             }
+    //             // if (bullet.getBounds().intersects(player.getBounds())) {
+    //             //     System.out.println("Player hit by enemy bullet! Health: " + player.getHealth());
+    //             //     player.takeDamage(bullet.getDamage());
+    //             //     bulletsToRemove.add(bullet); // Remove the bullet immediately
+    //             //     break; // Prevent further processing of this bullet
+    //             // }
+    //         }
+    //     }
+    
+    //     // Perform removals after iteration
+    //     enemies.removeAll(enemiesToRemove);
+    //     bullets.removeAll(bulletsToRemove);
+    // }
+
     private void checkBulletCollisions() {
+        System.out.println("--- Checking collisions ---");
+        System.out.println("Bullets: " + bullets.size());
+        System.out.println("Enemies: " + enemies.size());
+        
         List<Enemy> enemiesToRemove = new ArrayList<>();
         List<Bullet> bulletsToRemove = new ArrayList<>();
-
+    
         for (Bullet bullet : bullets) {
-            // Player bullet hits enemy
+            // System.out.println("Checking bullet at (" + bullet.getX() + "," + bullet.getY() + ")");
+            
             if (bullet.getOwner() == Bullet.BulletOwner.PLAYER) {
                 for (Enemy enemy : enemies) {
                     if (bullet.getBounds().intersects(enemy.getBounds())) {
-                        enemy.setHealth(enemy.getHealth() - bullet.getDamage());
+                        System.out.println("Player bullet hit enemy!");
                         bulletsToRemove.add(bullet);
-
+                        enemy.setHealth(enemy.getHealth() - bullet.getDamage());
+                        
                         if (enemy.getHealth() <= 0) {
                             enemiesToRemove.add(enemy);
                         }
@@ -175,19 +256,19 @@ public class SpaceLevel extends Level {
                     }
                 }
             }
-            // Enemy bullet hits player
             else if (bullet.getOwner() == Bullet.BulletOwner.ENEMY) {
                 if (bullet.getBounds().intersects(player.getBounds())) {
-                    // player.setHealth(player.getHealth() - bullet.getDamage());
-                    player.takeDamage(bullet.getDamage());
+                    System.out.println("ENEMY BULLET HIT PLAYER!");
                     bulletsToRemove.add(bullet);
+                    player.takeDamage(bullet.getDamage());
+                    break;
                 }
             }
         }
-
-        // Perform removals after iteration
-        enemies.removeAll(enemiesToRemove);
+    
+        System.out.println("Bullets to remove: " + bulletsToRemove.size());
         bullets.removeAll(bulletsToRemove);
+        enemies.removeAll(enemiesToRemove);
     }
 
     private void checkPowerUpCollisions() {
@@ -201,6 +282,7 @@ public class SpaceLevel extends Level {
                     player.setBulletsPerShot(Math.max(1, player.getBulletsPerShot() - 1));
                 }
                 powerUpsToRemove.add(powerUp);
+                System.out.println("Power-up collected! Bullets per shot: " + powerUp);
             }
         }
 

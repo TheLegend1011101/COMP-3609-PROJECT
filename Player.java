@@ -7,7 +7,7 @@ public abstract class Player {
     protected int dx, dy;
     protected Level level;
     protected int bulletsPerShot = 1;
-    protected int health = 100;
+    protected int health = 1000;
     protected int damage = 10;  // Damage dealt by the player
     // protected int speed;
     Player(int x, int y, int width, int height, Level level) {
@@ -55,10 +55,11 @@ public abstract class Player {
         this.health = health;  // Set the player's health
     }
 
-    public void takeDamage(int damage) {
-        this.health -= damage;  // Reduce health by the damage taken
-        if (this.health < 0) {
-            this.health = 0;  // Ensure health doesn't go below zero
-        }
-    }
+    public abstract void takeDamage(int damage);
+        // System.out.println("Player took damage: " + damage);  // Log the damage taken
+        // this.health -= damage;  // Reduce health by the damage taken
+        // if (this.health < 0) {
+        //     this.health = 0;  // Ensure health doesn't go below zero
+        // }
+    
 }
