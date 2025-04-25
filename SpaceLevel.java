@@ -1169,10 +1169,15 @@ public class SpaceLevel extends Level {
         }
 
         if (!showingVictoryText) {
+            // Create defensive copies of the collections
+            List<Bullet> bulletsCopy = new ArrayList<>(bullets);
+            List<Enemy> enemiesCopy = new ArrayList<>(enemies);
+            List<PowerUp> powerUpsCopy = new ArrayList<>(powerUps);
+    
             player.draw(g);
-            bullets.forEach(b -> b.draw(g));
-            enemies.forEach(e -> e.draw(g));
-            powerUps.forEach(p -> p.draw(g));
+            bulletsCopy.forEach(b -> b.draw(g));
+            enemiesCopy.forEach(e -> e.draw(g));
+            powerUpsCopy.forEach(p -> p.draw(g));
         }
 
         g2.drawImage(image, 0, 0, null);
