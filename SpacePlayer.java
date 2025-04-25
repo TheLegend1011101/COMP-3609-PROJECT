@@ -129,16 +129,16 @@ public class SpacePlayer extends Player {
             int bulletX = x + width / 2;
             bullets.add(new SpaceBullet(bulletX, y, SpaceBullet.BulletOwner.PLAYER, damage));
         } else {
-            // System.out.println(1);
             float spacing = width / (float) (bulletsPerShot - 1);
             for (int i = 0; i < bulletsPerShot; i++) {
                 int bulletX = (int) (x + i * spacing);
                 bullets.add(new SpaceBullet(bulletX, y, SpaceBullet.BulletOwner.PLAYER, damage));
             }
-
         }
         level.addBullets(bullets); // Add bullets to the level's bullet list
 
+        // Play the shooting sound
+        SoundManager.getInstance().playSound("shoot", false); // Play the sound once
     }
 
     // public void setBulletsPerShot(int bulletsPerShot) {
