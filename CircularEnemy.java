@@ -126,6 +126,7 @@ public class CircularEnemy extends Enemy {
         this.centerY = centerY;
         this.radius = radius;
         this.degree = 0;
+        image = ImageManager.loadBufferedImage("images/enemy-big.png"); // Load enemy image
     }
 
     @Override
@@ -149,18 +150,18 @@ public class CircularEnemy extends Enemy {
         shoot();
     }
 
-    @Override
-    public void draw(Graphics2D g2) {
-        if (!active) return;
+    // @Override
+    // public void draw(Graphics2D g2) {
+    //     if (!active) return;
         
-        // Draw enemy (using ellipse for circular appearance)
-        g2.setColor(Color.RED);
-        g2.fill(new Ellipse2D.Double(x, y, getWidth(), getHeight()));
+    //     // Draw enemy (using ellipse for circular appearance)
+    //     g2.setColor(Color.RED);
+    //     g2.fill(new Ellipse2D.Double(x, y, getWidth(), getHeight()));
         
-        // Optional: Draw center point (for debugging)
-        // g2.setColor(Color.GREEN);
-        // g2.fill(new Ellipse2D.Double(centerX-5, centerY-5, 10, 10));
-    }
+    //     // Optional: Draw center point (for debugging)
+    //     // g2.setColor(Color.GREEN);
+    //     // g2.fill(new Ellipse2D.Double(centerX-5, centerY-5, 10, 10));
+    // }
 
     @Override
     public boolean isOffScreen() {

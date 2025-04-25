@@ -10,6 +10,7 @@ public class SineWaveEnemy extends Enemy {
         super(startX, startY, level);
         this.baseX = startX;
         this.phase = 0;
+        image = ImageManager.loadBufferedImage("images/enemy-small.png");
     }
 
     @Override
@@ -32,4 +33,14 @@ public class SineWaveEnemy extends Enemy {
 
         shoot();
     }
+    // public void draw(Graphics2D g2) {
+    //     // Draw the enemy using the loaded image
+    //     if (image != null) {
+    //         g2.drawImage(image, x, y, width, height, null);
+    //     } else {
+    //         g2.setColor(Color.RED); // Fallback color if image is not loaded
+    //         g2.fillRect(x, y, width, height); // Draw a rectangle as a placeholder
+    //     }
+    // }
+
 }

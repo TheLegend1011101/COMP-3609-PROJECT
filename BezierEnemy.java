@@ -147,7 +147,7 @@ public class BezierEnemy extends Enemy {
 
     public BezierEnemy(int startX, int startY, Level level) {
         super(startX, startY, level);
-        image = (BufferedImage)ImageManager.loadBufferedImage("images/enemy-medium.png"); // Load the enemy image
+        image = ImageManager.loadBufferedImage("images/enemy-medium.png"); // Load the enemy image
         int screenWidth = 600; // Fixed screen width
         int centerX = screenWidth / 2;
 

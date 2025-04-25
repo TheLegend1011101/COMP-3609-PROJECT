@@ -116,20 +116,35 @@ public class Enemy {
         return damage; // Return the damage dealt by the enemy
     }
 
+    // public void draw(Graphics2D g2) {
+    //     if (alienAnimation != null) {
+    //         Image currentFrame = alienAnimation.getImage();
+    //         if (currentFrame != null) {
+    //             g2.drawImage(currentFrame, x, y, width, height, null);
+    //         } else {
+    //             // Fallback drawing if animation fails to load
+    //             g2.setColor(Color.RED);
+    //             g2.fillRect(x, y, width, height);
+    //         }
+    //     } else {
+    //         // Fallback drawing if animation object is null
+    //         g2.setColor(Color.BLUE);
+    //         g2.fillRect(x, y, width, height);
+    //     }
+    // }
     public void draw(Graphics2D g2) {
-        if (alienAnimation != null) {
-            Image currentFrame = alienAnimation.getImage();
-            if (currentFrame != null) {
-                g2.drawImage(currentFrame, x, y, width, height, null);
-            } else {
-                // Fallback drawing if animation fails to load
-                g2.setColor(Color.RED);
-                g2.fillRect(x, y, width, height);
-            }
-        } else {
-            // Fallback drawing if animation object is null
-            g2.setColor(Color.BLUE);
-            g2.fillRect(x, y, width, height);
+        // g2.drawImage(image, getX(), getY(), getWidth(), getHeight(), null); // Draw the enemy image
+        if(image!=null){
+                g2.drawImage(image, getX(), getY(), getWidth(), getHeight(), null); // Draw the enemy image
+                // g2.setColor(Color.RED);
+                // g2.fillRect(getX(), getY(), getWidth(), getHeight());
+
         }
+        else{
+            g2.setColor(Color.RED);
+            g2.fillRect(getX(), getY(), getWidth(), getHeight());
+        }
+        // g2.setColor(Color.RED);
+        // g2.fillRect(getX(), getY(), getWidth(), getHeight());
     }
 }
