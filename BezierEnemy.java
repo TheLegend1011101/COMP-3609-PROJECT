@@ -181,6 +181,7 @@ public class BezierEnemy extends Enemy {
 
         setX(newX);
         setY(newY);
+        shoot();
     }
 
     @Override
