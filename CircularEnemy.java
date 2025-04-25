@@ -1,5 +1,117 @@
+// import java.awt.Graphics2D;
+// import java.awt.Color;
+
+// public class CircularEnemy extends Enemy {
+//     private double centerX, centerY; // Center of the circular path
+//     private double radius;
+//     private double angle; // Current angle in radians
+//     private double angularSpeed = 0.05; // Adjust for faster/slower circular movement
+
+//     public CircularEnemy(int startX, int startY, Level level, int circleCenterX, int circleCenterY, int circleRadius) {
+//         super(startX, startY, level);
+//         this.centerX = circleCenterX;
+//         this.centerY = circleCenterY;
+//         this.radius = circleRadius;
+
+//         // Initialize the enemy's position on the circle
+//         this.angle = Math.atan2(startY - centerY, startX - centerX);
+//         this.x = (int) (circleCenterX + radius * Math.cos(angle));
+//         this.y = (int) (circleCenterY + radius * Math.sin(angle));
+//     }
+
+//     @Override
+//     public void update() {
+//         angle += angularSpeed; // Increment the angle
+//         x = (int) (centerX + radius * Math.cos(angle));
+//         y = (int) (centerY + radius * Math.sin(angle));
+//         shoot(); // Enemies can still shoot while moving in a circle
+//     }
+
+//     // You might need to override isOffScreen() depending on your game's logic
+//     @Override
+//     public boolean isOffScreen() {
+//         // For circular movement, "off-screen" might need a different definition.
+//         // Consider if the center of the circle goes off-screen by a certain margin,
+//         // or if the enemy itself goes beyond certain boundaries.
+//         int enemyWidth = getWidth();
+//         int enemyHeight = getHeight();
+//         int screenWidth = 800; // Example screen width
+//         int screenHeight = 600; // Example screen height
+
+//         // Check if any part of the circle's influence is still on screen
+//         double circleLeft = centerX - radius - enemyWidth;
+//         double circleRight = centerX + radius + enemyWidth;
+//         double circleTop = centerY - radius - enemyHeight;
+//         double circleBottom = centerY + radius + enemyHeight;
+
+//         return circleRight < 0 || circleLeft > screenWidth || circleBottom < 0 || circleTop > screenHeight;
+//     }
+
+//     public double getCenterX() {
+//         return centerX;
+//     }
+
+//     public void setCenterX(double centerX) {
+//         this.centerX = centerX;
+//     }
+
+//     public double getCenterY() {
+//         return centerY;
+//     }
+
+//     public void setCenterY(double centerY) {
+//         this.centerY = centerY;
+//     }
+
+//     public double getRadius() {
+//         return radius;
+//     }
+
+//     public void setRadius(double radius) {
+//         this.radius = radius;
+//     }
+
+//     public double getAngularSpeed() {
+//         return angularSpeed;
+//     }
+
+//     public void setAngularSpeed(double angularSpeed) {
+//         this.angularSpeed = angularSpeed;
+//     }
+
+//     @Override
+//     public void setX(int x) {
+//         // While the position is primarily determined by the circle,
+//         // you might still want to set it directly in some circumstances.
+//         // Updating centerX and angle might be more appropriate for circular motion.
+//         this.x = x;
+//     }
+
+//     @Override
+//     public void setY(int y) {
+//         this.y = y;
+//     }
+
+//     @Override
+//     public int getX() {
+//         return (int) x;
+//     }
+
+//     @Override
+//     public int getY() {
+//         return (int) y;
+//     }
+
+//     @Override
+//     public void draw(Graphics2D g2) {
+//         g2.setColor(Color.BLUE); // Different color for circular enemies
+//         g2.fillRect((int) x, (int) y, getWidth(), getHeight());
+//     }
+// }
+
 import java.awt.Graphics2D;
 import java.awt.Color;
+import java.awt.Image;
 
 public class CircularEnemy extends Enemy {
     private double centerX, centerY; // Center of the circular path
@@ -7,8 +119,11 @@ public class CircularEnemy extends Enemy {
     private double angle; // Current angle in radians
     private double angularSpeed = 0.05; // Adjust for faster/slower circular movement
 
+    protected Animation alienAnimation; // Animation for the enemy
+
     public CircularEnemy(int startX, int startY, Level level, int circleCenterX, int circleCenterY, int circleRadius) {
         super(startX, startY, level);
+        loadAnimation(); // Load animation for CircularEnemy
         this.centerX = circleCenterX;
         this.centerY = circleCenterY;
         this.radius = circleRadius;
@@ -20,11 +135,29 @@ public class CircularEnemy extends Enemy {
     }
 
     @Override
+    protected void loadAnimation() {
+        alienAnimation = new Animation(true);
+        Image circularAlien1 = ImageManager.loadImage("images/space__0004_C1.png"); // Specific images
+        Image circularAlien2 = ImageManager.loadImage("images/space__0005_C2.png");
+        long frameDuration = 150; // Adjust animation speed if needed
+        if (circularAlien1 != null && circularAlien2 != null) {
+            alienAnimation.addFrame(circularAlien1, frameDuration);
+            alienAnimation.addFrame(circularAlien2, frameDuration);
+            alienAnimation.start();
+        } else {
+            System.err.println("Error loading CircularEnemy animation frames!");
+        }
+    }
+
+    @Override
     public void update() {
         angle += angularSpeed; // Increment the angle
         x = (int) (centerX + radius * Math.cos(angle));
         y = (int) (centerY + radius * Math.sin(angle));
         shoot(); // Enemies can still shoot while moving in a circle
+        if (alienAnimation != null) {
+            alienAnimation.update(); // Update animation
+        }
     }
 
     // You might need to override isOffScreen() depending on your game's logic
@@ -104,7 +237,17 @@ public class CircularEnemy extends Enemy {
 
     @Override
     public void draw(Graphics2D g2) {
-        g2.setColor(Color.BLUE); // Different color for circular enemies
-        g2.fillRect((int) x, (int) y, getWidth(), getHeight());
+        if (alienAnimation != null) {
+            Image currentFrame = alienAnimation.getImage();
+            if (currentFrame != null) {
+                g2.drawImage(currentFrame, (int) x, (int) y, getWidth(), getHeight(), null);
+            } else {
+                g2.setColor(Color.BLUE); // Fallback color
+                g2.fillRect((int) x, (int) y, getWidth(), getHeight());
+            }
+        } else {
+            g2.setColor(Color.CYAN); // Fallback color if animation is null
+            g2.fillRect((int) x, (int) y, getWidth(), getHeight());
+        }
     }
 }

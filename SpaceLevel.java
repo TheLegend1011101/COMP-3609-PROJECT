@@ -1,3 +1,5 @@
+
+
 import java.awt.Graphics2D;
 import java.util.List;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class SpaceLevel extends Level {
     private boolean waitingForRestart;
     private BackgroundManager backgroundManager;
     private long gameOverTime;
+    private BufferedImage image;
 
     public SpaceLevel(int levelNumber, GamePanel gamePanel) {
         image = new BufferedImage(600, 500, BufferedImage.TYPE_INT_RGB);
@@ -45,22 +48,13 @@ public class SpaceLevel extends Level {
 
     private void spawnEnemies() {
         if (levelNumber == 1) {
-            spawnAnimatedEnemies(50); // Spawn animated enemies
             spawnSineWaveEnemies(50);
             spawnSineWaveEnemies(-150);
         } else if (levelNumber == 2) {
-            spawnAnimatedEnemies(100); // Spawn animated enemies
             spawnSineWaveEnemies(100);
+            spawnBezierEnemies(75); // Spawn Bezier enemies in level 2
         } else if (levelNumber == 3) {
-            spawnAnimatedEnemies(75); // Spawn animated enemies
-            spawnCircularEnemies(50);
-        }
-    }
-
-    // New method to spawn animated enemies
-    public void spawnAnimatedEnemies(int y) {
-        for (int i = 0; i < 3; i++) {
-            enemies.add(new AnimatedEnemy(150 * i + 100, y, this)); // Create AnimatedEnemy instances
+            spawnCircularEnemies(100); // Spawn Circular enemies in level 3
         }
     }
 
@@ -75,7 +69,6 @@ public class SpaceLevel extends Level {
             }
             return;
         }
-    // System.out.println("Player health: " + player.getHealth());
         if (player.getHealth() <= 0 && !gameOver) {
             gameOver = true;
             waitingForRestart = true;
@@ -155,108 +148,29 @@ public class SpaceLevel extends Level {
         checkPowerUpCollisions();
     }
 
-    // private void checkBulletCollisions() {
-    //     List<Enemy> enemiesToRemove = new ArrayList<>();
-    //     List<Bullet> bulletsToRemove = new ArrayList<>();
-
-    //     for (Bullet bullet : bullets) {
-    //         // Player bullet hits enemy
-    //         if (bullet.getOwner() == Bullet.BulletOwner.PLAYER) {
-    //             for (Enemy enemy : enemies) {
-    //                 if (bullet.getBounds().intersects(enemy.getBounds())) {
-    //                     enemy.setHealth(enemy.getHealth() - bullet.getDamage());
-    //                     bulletsToRemove.add(bullet);
-
-    //                     if (enemy.getHealth() <= 0) {
-    //                         enemiesToRemove.add(enemy);
-    //                     }
-    //                     break;
-    //                 }
-    //             }
-    //         }
-    //         // Enemy bullet hits player
-    //         else if (bullet.getOwner() == Bullet.BulletOwner.ENEMY) {
-    //             if (bullet.getBounds().intersects(player.getBounds())) {
-    //                 // player.setHealth(player.getHealth() - bullet.getDamage());
-    //                 System.out.println("Player hit by enemy bullet! Health: " + player.getHealth());
-    //                 player.takeDamage(bullet.getDamage());
-    //                 bulletsToRemove.add(bullet);
-    //             }
-    //         }
-    //     }
-
-    //     // Perform removals after iteration
-    //     enemies.removeAll(enemiesToRemove);
-    //     bullets.removeAll(bulletsToRemove);
-    // }
-
-    // private void checkBulletCollisions() {
-    //     List<Enemy> enemiesToRemove = new ArrayList<>();
-    //     List<Bullet> bulletsToRemove = new ArrayList<>();
-    
-    //     for (Bullet bullet : bullets) {
-    //         // Player bullet hits enemy
-    //         if (bullet.getOwner() == Bullet.BulletOwner.PLAYER) {
-    //             for (Enemy enemy : enemies) {
-    //                 if (bullet.getBounds().intersects(enemy.getBounds())) {
-    //                     enemy.setHealth(enemy.getHealth() - bullet.getDamage());
-    //                     bulletsToRemove.add(bullet);
-    
-    //                     if (enemy.getHealth() <= 0) {
-    //                         enemiesToRemove.add(enemy);
-    //                     }
-    //                     break;
-    //                 }
-    //             }
-    //         }
-    //         // Enemy bullet hits player
-    //         else if (bullet.getOwner() == Bullet.BulletOwner.ENEMY) {
-    //             if(player.getBounds().intersects(bullet.getBounds())) {
-    //                 // player.setHealth(player.getHealth() - bullet.getDamage());
-    //                 System.out.println("Player hit by enemy bullet! Health: " + player.getHealth());
-    //                 player.takeDamage(bullet.getDamage());
-    //                 bulletsToRemove.add(bullet);
-    //             }
-    //             // if (bullet.getBounds().intersects(player.getBounds())) {
-    //             //     System.out.println("Player hit by enemy bullet! Health: " + player.getHealth());
-    //             //     player.takeDamage(bullet.getDamage());
-    //             //     bulletsToRemove.add(bullet); // Remove the bullet immediately
-    //             //     break; // Prevent further processing of this bullet
-    //             // }
-    //         }
-    //     }
-    
-    //     // Perform removals after iteration
-    //     enemies.removeAll(enemiesToRemove);
-    //     bullets.removeAll(bulletsToRemove);
-    // }
-
     private void checkBulletCollisions() {
         System.out.println("--- Checking collisions ---");
         System.out.println("Bullets: " + bullets.size());
         System.out.println("Enemies: " + enemies.size());
-        
+
         List<Enemy> enemiesToRemove = new ArrayList<>();
         List<Bullet> bulletsToRemove = new ArrayList<>();
-    
+
         for (Bullet bullet : bullets) {
-            // System.out.println("Checking bullet at (" + bullet.getX() + "," + bullet.getY() + ")");
-            
             if (bullet.getOwner() == Bullet.BulletOwner.PLAYER) {
                 for (Enemy enemy : enemies) {
                     if (bullet.getBounds().intersects(enemy.getBounds())) {
                         System.out.println("Player bullet hit enemy!");
                         bulletsToRemove.add(bullet);
                         enemy.setHealth(enemy.getHealth() - bullet.getDamage());
-                        
+
                         if (enemy.getHealth() <= 0) {
                             enemiesToRemove.add(enemy);
                         }
                         break;
                     }
                 }
-            }
-            else if (bullet.getOwner() == Bullet.BulletOwner.ENEMY) {
+            } else if (bullet.getOwner() == Bullet.BulletOwner.ENEMY) {
                 if (bullet.getBounds().intersects(player.getBounds())) {
                     System.out.println("ENEMY BULLET HIT PLAYER!");
                     bulletsToRemove.add(bullet);
@@ -265,7 +179,7 @@ public class SpaceLevel extends Level {
                 }
             }
         }
-    
+
         System.out.println("Bullets to remove: " + bulletsToRemove.size());
         bullets.removeAll(bulletsToRemove);
         enemies.removeAll(enemiesToRemove);
@@ -306,7 +220,7 @@ public class SpaceLevel extends Level {
             imageContext.drawString(restartText, (image.getWidth() - restartWidth) / 2, image.getHeight() / 2 + 20);
         }
         // Draw all entities
-        player.draw(imageContext);
+        player.draw(imageContext); // Pass imageContext to player.draw()
         for (Bullet bullet : bullets) {
             bullet.draw(imageContext);
         }
@@ -394,14 +308,13 @@ public class SpaceLevel extends Level {
         }
     }
 
-    // public void spawnCircularEnemies(int y) {
-    // for (int i = 0; i < 4; i++) {
-    // enemies.add(new CircularEnemy(150 * i + 55, y, this));
-    // }
-    // }
     public void spawnCircularEnemies(int y) {
+        int screenWidth = 600;
         for (int i = 0; i < 4; i++) {
-            enemies.add(new CircularEnemy(i, y, null, i, y, i));
+            int centerX = screenWidth / 4 * (i + 1); // Spread the centers horizontally
+            int centerY = y + 50; // Start them at a certain y-level
+            int radius = 30 + i * 10; // Vary the radius
+            enemies.add(new CircularEnemy(i, screenWidth / 4 * (i + 1), this, centerX, centerY, radius));
         }
     }
 
