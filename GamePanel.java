@@ -201,7 +201,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GamePanel() {
         isRunning = false;
-        currentLevel = new SpaceLevel(level, this);  // Start with level 1
+        // currentLevel = new SpaceLevel(level, this);  // Start with level 1
         // currentLevel = new PlatformLevel(1);  // Start with level 1
         // currentLevel = new testtLevel();  // Start with level 1
         // currentLevel = new testtLevel(600, 500, 20);
@@ -233,6 +233,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void startGame() {
         if (gameThread == null) {
+            currentLevel = new SpaceLevel(1, this); // Start with level 1
             gameThread = new Thread(this);
             gameThread.start();
         }

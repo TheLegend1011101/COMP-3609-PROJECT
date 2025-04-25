@@ -2,13 +2,15 @@ import java.util.ArrayList;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 
 public abstract class Bullet {
     protected int x, y; // Position of the bullet
     protected int speed; // Speed of the bullet
-    protected int width = 5, height = 10; // Bullet dimensions
+    protected int width = 30, height = 30; // Bullet dimensions
     protected BulletOwner owner; // Owner of the bullet (player or enemy)
     protected int damage; // Damage dealt by the bullet
+    protected BufferedImage image;
     
     public int getSpeed() {
         return speed;

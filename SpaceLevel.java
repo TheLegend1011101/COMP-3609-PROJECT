@@ -36,6 +36,7 @@ public class SpaceLevel extends Level {
         this.powerUps = new ArrayList<>();
         this.gamePanel = gamePanel; // Initialize gamePanel
         initializeLevel();
+        SoundManager.getInstance().playSound("background", true);
     }
 
     private void initializeLevel() {
