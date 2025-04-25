@@ -130,7 +130,7 @@ public class Background {
         backgroundY2 = backgroundY2 + bgDY;
 
         if ((bgY) % bgImageHeight == 0) {
-            System.out.println("Background change: bgY = " + bgY);
+            // System.out.println("Background change: bgY = " + bgY);
             backgroundY = 0;
             backgroundY2 = -bgImageHeight;
         }

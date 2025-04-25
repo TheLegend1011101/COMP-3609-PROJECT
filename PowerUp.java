@@ -15,7 +15,7 @@ public class PowerUp {
         this.y = startY;
         this.width = 20; // Example width
         this.height = 20; // Example height
-        this.speed = 5; // Example speed
+        this.speed = 12; // Example speed
     }
 
     public void update() {
