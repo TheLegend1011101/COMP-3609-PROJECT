@@ -54,4 +54,11 @@ public abstract class Player {
     public void setHealth(int health) {
         this.health = health;  // Set the player's health
     }
+
+    public void takeDamage(int damage) {
+        this.health -= damage;  // Reduce health by the damage taken
+        if (this.health < 0) {
+            this.health = 0;  // Ensure health doesn't go below zero
+        }
+    }
 }

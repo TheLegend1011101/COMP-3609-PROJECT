@@ -5,6 +5,7 @@ import java.awt.RenderingHints.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 public class SpacePlayer extends Player {
 
@@ -15,9 +16,16 @@ public class SpacePlayer extends Player {
     private boolean movingRight = false;
     private boolean movingUp = false;
     private boolean movingDown = false;
+    private boolean flashing = false;
+    private int flashTimer = 0;
+    private int flashDuration = 20; // Number of frames to flash
+    private BufferedImage image; // Image for the player
+    private BufferedImage brightImage; // Bright image for flashing effect
+
 
     public SpacePlayer(int x, int y, Level level) {
         super(x, y, 50, 50, level); // Call the constructor of the Player class
+        // this.brightImage = brightenImage(image);
         // this.x = 300;
         // this.y = 450; 
     }
@@ -27,9 +35,25 @@ public class SpacePlayer extends Player {
         if (movingRight && x < 550) x += dx;
         if (movingUp && y > 0) y -= dy;
         if (movingDown && y < 500) y += dy;
-    }
 
+        if (flashing) {
+            flashTimer--;
+            if (flashTimer <= 0) {
+                flashing = false;
+            }
+        }
+    }
+    public boolean isFlashing() {
+        return flashing; // Return true if the player is flashing
+    }
     public void draw(Graphics2D g2) {
+        if(isFlashing()) {
+            // g2.drawImage(brightImage, x, y, null); // Draw the bright image
+            g2.setColor(Color.RED); // Flashing color
+            g2.fillRect(x, y, width, height); // Draw flashing rectangle
+        } else {
+            g2.drawImage(image, x, y, null); // Draw the player image
+        }
         g2.setColor(Color.BLUE);
         g2.fillRect(x, y, width, height);
     }
@@ -156,6 +180,14 @@ public class SpacePlayer extends Player {
     public int getHeight() { return height; }
     public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);  // Create and return the bounding box
+    }
+
+    public void takeDamage(int amount) {
+        health -= amount;
+    
+        // Start flashing
+        flashing = true;
+        flashTimer = flashDuration;
     }
 }
 

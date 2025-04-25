@@ -32,7 +32,7 @@ public class Enemy {
         this.x = startX; // Set the starting x position
         this.y = startY; // Set the starting y position
         this.health = 30; // Default health value
-        this.damage = 10; // Default damage value
+        this.damage = 5; // Default damage value
     }
 
     public Rectangle getBounds() {

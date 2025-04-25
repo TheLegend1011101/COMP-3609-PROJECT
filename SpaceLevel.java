@@ -316,7 +316,7 @@ public class SpaceLevel extends Level {
             }
             return;
         }
-    
+        // System.out.println("Player health: " + player.getHealth());
         if (player.getHealth() <= 0 && !gameOver) {
             gameOver = true;
             waitingForRestart = true;
@@ -419,7 +419,8 @@ public class SpaceLevel extends Level {
             // Enemy bullet hits player
             else if (bullet.getOwner() == Bullet.BulletOwner.ENEMY) {
                 if (bullet.getBounds().intersects(player.getBounds())) {
-                    player.setHealth(player.getHealth() - bullet.getDamage());
+                    // player.setHealth(player.getHealth() - bullet.getDamage());
+                    player.takeDamage(bullet.getDamage());
                     bulletsToRemove.add(bullet);
                 }
             }
