@@ -16,14 +16,16 @@ import javax.swing.JPanel;
 
 public class BackgroundManager {
 
-	private String bgImages[] = {"images/layer_08.png",
-			       	     "images/layer_07.png",
-				     "images/layer_06.png",
-				     "images/layer_05.png",
-				     "images/layer_04.png",
-				     "images/layer_03.png",
-				     "images/layer_02.png",
-			       	     "images/layer_01.png"};
+	private String bgImages[] = {"images\\T_YellowBackground_Version4_Layer1.png",
+			       	     "images\\T_YellowBackground_Version4_Layer2.png",
+							"images\\T_YellowBackground_Version4_Layer3.png",
+						"images\\T_YellowBackground_Version4_Layer4.png"};
+				    //  "images/layer_06.png",
+				    //  "images/layer_05.png",
+				    //  "images/layer_04.png",
+				    //  "images/layer_03.png",
+				    //  "images/layer_02.png",
+			       	//      "images/layer_01.png"};
 
   	private int moveAmount[] = {1, 2, 3, 4, 4, 4, 5, 10};  
 						// pixel amounts to move each background left or right
@@ -47,15 +49,20 @@ public class BackgroundManager {
   	} 
 
 
-  	public void moveRight() { 
-		for (int i=0; i < numBackgrounds; i++)
-      			backgrounds[i].moveRight();
-  	}
+  	// public void moveRight() { 
+	// 	for (int i=0; i < numBackgrounds; i++)
+    //   			backgrounds[i].moveRight();
+  	// }
 
 
-  	public void moveLeft() {
+  	// public void moveLeft() {
+	// 	for (int i=0; i < numBackgrounds; i++)
+    //   			backgrounds[i].moveLeft();
+  	// }
+
+	public void moveDown() {
 		for (int i=0; i < numBackgrounds; i++)
-      			backgrounds[i].moveLeft();
+	  			backgrounds[i].moveDown();
   	}
 
 

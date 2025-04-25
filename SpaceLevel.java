@@ -269,6 +269,7 @@ public class SpaceLevel extends Level {
     private boolean showingCompletionText; // Flag for showing completion text
     private boolean gameOver;
     private boolean waitingForRestart;
+    private BackgroundManager backgroundManager;
     private long gameOverTime;
     
     public SpaceLevel(int levelNumber, GamePanel gamePanel) {
@@ -285,6 +286,7 @@ public class SpaceLevel extends Level {
 
     private void initializeLevel() {
         this.player = new SpacePlayer(300, 450, this);
+        backgroundManager = new BackgroundManager(gamePanel, 5);
         spawnEnemies();
         powerUps.add(new BulletUpPowerUp(100, 100));
         powerUps.add(new BulletUpPowerUp(200, 100));
@@ -321,6 +323,8 @@ public class SpaceLevel extends Level {
             gameOverTime = System.currentTimeMillis();
             return;
         }
+
+        backgroundManager.moveDown();
         // Update all entities
         player.update();
         updateBullets();
@@ -446,6 +450,7 @@ public class SpaceLevel extends Level {
     public void draw(Graphics2D g2) {
         Graphics2D imageContext = (Graphics2D) image.getGraphics();
         imageContext.clearRect(0, 0, image.getWidth(), image.getHeight());
+        backgroundManager.draw(imageContext);
         if (gameOver) {
             imageContext.setColor(Color.RED);
             imageContext.setFont(new Font("Arial", Font.BOLD, 36));
