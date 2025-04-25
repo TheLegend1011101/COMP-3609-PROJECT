@@ -101,6 +101,7 @@
 // }
 
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Graphics2D;
@@ -111,12 +112,13 @@ public class Enemy {
     protected int x, y;
     private int width = 40, height = 40;
     private int speed = 2;
-    private int health; // Health of the enemy
-    private int damage; // Damage dealt by the enemy
-    private Level level;
-    private long lastShotTime = 0; // Time of the last shot
-    private List<Bullet> bullets = new ArrayList<>();
+    protected int health; // Health of the enemy
+    protected int damage; // Damage dealt by the enemy
+    protected Level level;
+    protected long lastShotTime = 0; // Time of the last shot
+    protected List<Bullet> bullets = new ArrayList<>();
     private Animation alienAnimation; // Use Animation class
+    protected BufferedImage image;;
 
     public Enemy(int startX, int startY, Level level) {
         this(startX, startY);

@@ -131,7 +131,12 @@ import java.awt.Color;
 //     }
 // }
 
-
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.awt.Image;
 public class BezierEnemy extends Enemy {
 
     private double t;
@@ -141,7 +146,7 @@ public class BezierEnemy extends Enemy {
 
     public BezierEnemy(int startX, int startY, Level level) {
         super(startX, startY, level);
-
+        image = (BufferedImage)ImageManager.loadBufferedImage("images/enemy-medium.png"); // Load the enemy image
         int screenWidth = 600; // Fixed screen width
         int centerX = screenWidth / 2;
 
@@ -186,10 +191,32 @@ public class BezierEnemy extends Enemy {
 
     @Override
     public void draw(Graphics2D g2) {
-        g2.setColor(Color.RED);
-        g2.fillRect(getX(), getY(), getWidth(), getHeight());
+        g2.drawImage(image, getX(), getY(), getWidth(), getHeight(), null); // Draw the enemy image
+        // g2.setColor(Color.RED);
+        // g2.fillRect(getX(), getY(), getWidth(), getHeight());
     }
 
+    @Override
+    public void shoot() {
+        bullets.clear();
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastShotTime >= 2000) {
+            // Determine direction based on movement
+            int direction = (!movingBack) ? 2 : 1; // 2 for right, 1 for left
+            
+            bullets.add(new ProjectileBullet(
+                getX() + getWidth() / 2, 
+                getY() + getHeight(), 
+                Bullet.BulletOwner.ENEMY, 
+                damage,
+                direction
+            ));
+            lastShotTime = currentTime;
+        }
+        if (level != null) {
+            level.addBullets(bullets);
+        }
+    }
     @Override
     public Rectangle getBounds() {
         return new Rectangle(getX(), getY(), getWidth(), getHeight());

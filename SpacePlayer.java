@@ -34,7 +34,7 @@ public class SpacePlayer extends Player {
         if (movingLeft && x > 0) x -= dx;
         if (movingRight && x < 550) x += dx;
         if (movingUp && y > 0) y -= dy;
-        if (movingDown && y < 500) y += dy;
+        if (movingDown && y < 500-height) y += dy;
 
         if (flashing) {
             flashTimer--;

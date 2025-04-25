@@ -74,5 +74,12 @@ public class BackgroundManager {
       			backgrounds[i].draw(g2);
   	}
 
+	public void setImages(String[] images) {
+		this.bgImages = images;
+		for (int i = 0; i < numBackgrounds; i++) {
+			backgrounds[i] = new Background(panel, bgImages[i], moveAmount[i]);
+		}
+	}
+
 }
 

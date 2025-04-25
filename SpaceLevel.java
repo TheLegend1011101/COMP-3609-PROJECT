@@ -37,15 +37,54 @@ public class SpaceLevel extends Level {
 
     private void initializeLevel() {
         this.player = new SpacePlayer(300, 450, this);
-        backgroundManager = new BackgroundManager(gamePanel, 5);
+        setupBackground(); // New method for background setup
         spawnEnemies();
         powerUps.add(new BulletUpPowerUp(100, 100));
-        powerUps.add(new BulletUpPowerUp(200, 100));
+        powerUps.add(new BulletDownPowerUp(200, 100));
+    }
+    
+    private void setupBackground() {
+        // Initialize with default speed (1)
+        backgroundManager = new BackgroundManager(gamePanel, 1);
+        
+        // Level-specific background settings
+        switch(levelNumber) {
+            case 1:
+                // Default background (already set)
+                break;
+                
+            case 2:
+                String[] redBackgroundImages = {
+                    "images/T_RedBackground_Version4_Layer1.png",
+                    "images/T_RedBackground_Version4_Layer2.png",
+                    "images/T_RedBackground_Version4_Layer3.png",
+                    "images/T_RedBackground_Version4_Layer4.png"
+                };
+                backgroundManager.setImages(redBackgroundImages);
+                // backgroundManager.setSpeed(2); // Faster speed for level 2 if desired
+                break;
+                
+            case 3:
+                // Example for level 3 - could use different images
+                String[] blueBackgroundImages = {
+                    "images/T_BlueBackground_Layer1.png",
+                    "images/T_BlueBackground_Layer2.png",
+                    "images/T_BlueBackground_Layer3.png"
+                };
+                backgroundManager.setImages(blueBackgroundImages);
+                break;
+                
+            default:
+                // Default background for any other levels
+                break;
+        }
     }
 
     private void spawnEnemies() {
         if (levelNumber == 1) {
-            spawnAnimatedEnemies(50); // Spawn animated enemies
+            // spawnAnimatedEnemies(50); // Spawn animated enemies
+            spawnBezierEnemies(0);
+            spawnCircularEnemies(250);
             spawnSineWaveEnemies(50);
             spawnSineWaveEnemies(-150);
         } else if (levelNumber == 2) {
@@ -126,7 +165,7 @@ public class SpaceLevel extends Level {
             if (enemy.getY() > image.getHeight()) {
                 enemyIterator.remove();
                 player.setHealth(player.getHealth() - 10); // Damage player when enemy escapes
-                System.out.println("Enemy escaped! Player health: " + player.getHealth());
+                // System.out.println("Enemy escaped! Player health: " + player.getHealth());
 
                 // Check if player died from the damage
                 if (player.getHealth() <= 0) {
@@ -232,9 +271,9 @@ public class SpaceLevel extends Level {
     // }
 
     private void checkBulletCollisions() {
-        System.out.println("--- Checking collisions ---");
-        System.out.println("Bullets: " + bullets.size());
-        System.out.println("Enemies: " + enemies.size());
+        // System.out.println("--- Checking collisions ---");
+        // System.out.println("Bullets: " + bullets.size());
+        // System.out.println("Enemies: " + enemies.size());
         
         List<Enemy> enemiesToRemove = new ArrayList<>();
         List<Bullet> bulletsToRemove = new ArrayList<>();
@@ -245,7 +284,7 @@ public class SpaceLevel extends Level {
             if (bullet.getOwner() == Bullet.BulletOwner.PLAYER) {
                 for (Enemy enemy : enemies) {
                     if (bullet.getBounds().intersects(enemy.getBounds())) {
-                        System.out.println("Player bullet hit enemy!");
+                        // System.out.println("Player bullet hit enemy!");
                         bulletsToRemove.add(bullet);
                         enemy.setHealth(enemy.getHealth() - bullet.getDamage());
                         
@@ -258,7 +297,7 @@ public class SpaceLevel extends Level {
             }
             else if (bullet.getOwner() == Bullet.BulletOwner.ENEMY) {
                 if (bullet.getBounds().intersects(player.getBounds())) {
-                    System.out.println("ENEMY BULLET HIT PLAYER!");
+                    // System.out.println("ENEMY BULLET HIT PLAYER!");
                     bulletsToRemove.add(bullet);
                     player.takeDamage(bullet.getDamage());
                     break;
@@ -266,7 +305,7 @@ public class SpaceLevel extends Level {
             }
         }
     
-        System.out.println("Bullets to remove: " + bulletsToRemove.size());
+        // System.out.println("Bullets to remove: " + bulletsToRemove.size());
         bullets.removeAll(bulletsToRemove);
         enemies.removeAll(enemiesToRemove);
     }
@@ -400,13 +439,34 @@ public class SpaceLevel extends Level {
     // }
     // }
     public void spawnCircularEnemies(int y) {
-        for (int i = 0; i < 4; i++) {
-            enemies.add(new CircularEnemy(i, y, null, i, y, i));
-        }
+        int centerX = 300;  // Center of 600px wide screen
+        int centerY = 250;  // Center of 500px tall screen
+        int radius = 100;   // Circle radius
+        
+        // Create one circular enemy with spinning motion
+        CircularEnemy enemy = new CircularEnemy(centerX, centerY, this, radius);
+        enemy.setAngularSpeed(2); // Slightly slower than default
+        enemies.add(enemy);
     }
 
     public void endLevel() {
-        gamePanel.nextLevel();
+        // Clear current level resources
+        enemies.clear();
+        bullets.clear();
+        powerUps.clear();
+        
+        // Increment level number
+        levelNumber++;
+        
+        // Re-initialize the level with new background
+        initializeLevel();
+        
+        // Reset completion flags
+        levelCompleted = false;
+        showingCompletionText = false;
+        
+        // Notify GamePanel to update (if needed)
+        gamePanel.repaint();
     }
 
     private void restartGame() {
