@@ -108,12 +108,12 @@ public class Background {
         this.bgImage = loadImage(imageFile);
         bgImageHeight = bgImage.getHeight(null);   // get height of the background
 
-        System.out.println("bgImageHeight = " + bgImageHeight);
+        // System.out.println("bgImageHeight = " + bgImageHeight);
 
         dimension = panel.getSize();
 
         if (bgImageHeight < dimension.height)
-            System.out.println("Background height < panel height");
+            // System.out.println("Background height < panel height");
 
         this.bgDY = bgDY;
     }

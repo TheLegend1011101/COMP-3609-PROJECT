@@ -392,15 +392,34 @@ public class SpacePlayer extends Player {
         }
     }
 
+    // public void shoot() {
+    //     List<Bullet> bullets = new ArrayList<>();
+    //     if (bulletsPerShot == 1) {
+    //         int bulletX = x + width / 2;
+    //         bullets.add(new SpaceBullet(bulletX, y, SpaceBullet.BulletOwner.PLAYER, damage));
+    //     } else {
+    //         float spacing = width / (float) (bulletsPerShot - 1);
+    //         for (int i = 0; i < bulletsPerShot; i++) {
+    //             int bulletX = (int) (x + i * spacing);
+    //             bullets.add(new SpaceBullet(bulletX, y, SpaceBullet.BulletOwner.PLAYER, damage));
+    //         }
+    //     }
+    //     level.addBullets(bullets);
+    //     SoundManager.getInstance().playSound("shoot", false);
+    // }
+
     public void shoot() {
         List<Bullet> bullets = new ArrayList<>();
+    
         if (bulletsPerShot == 1) {
-            int bulletX = x + width / 2;
+            // Center bullet on player
+            int bulletX = x + (width / 2) - 13;  // Adjust -3 as needed for fine-tuning
             bullets.add(new SpaceBullet(bulletX, y, SpaceBullet.BulletOwner.PLAYER, damage));
         } else {
-            float spacing = width / (float) (bulletsPerShot - 1);
-            for (int i = 0; i < bulletsPerShot; i++) {
-                int bulletX = (int) (x + i * spacing);
+            // For multiple bullets, calculate spread from center
+            float spacing = width / (float)(bulletsPerShot + 1);  // Changed from bulletsPerShot - 1
+            for (int i = 1; i <= bulletsPerShot; i++) {
+                int bulletX = (int)(x + (i * spacing)) - 13;  // Same adjustment
                 bullets.add(new SpaceBullet(bulletX, y, SpaceBullet.BulletOwner.PLAYER, damage));
             }
         }

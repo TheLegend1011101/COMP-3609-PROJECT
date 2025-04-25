@@ -7,14 +7,14 @@ public abstract class Player {
     protected int dx, dy;
     protected Level level;
     protected int bulletsPerShot = 1;
-    protected int health = 1000;
+    protected int health = 50;
     protected int damage = 10;  // Damage dealt by the player
     // protected int speed;
     Player(int x, int y, int width, int height, Level level) {
         this.x = x;
         this.y = y;
-        dx = 5;
-        dy = 5;
+        dx = 10;
+        dy = 10;
         this.width = width;
         this.height = height;
         this.level = level;
