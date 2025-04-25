@@ -51,7 +51,7 @@ public abstract class Level {
             enemy.update();
         }
 
-        // Update shooting enemies
+        // // Update shooting enemies
         // for (ShootingEnemy enemy : shootingEnemies) {
         // enemy.update();
         // }
