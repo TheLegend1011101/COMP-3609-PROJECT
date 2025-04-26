@@ -1039,25 +1039,29 @@ public class SpaceLevel extends Level {
     }
 
     private void updateEnemies() {
-        Iterator<Enemy> it = enemies.iterator();
-        while (it.hasNext()) {
-            Enemy enemy = it.next();
+        // Create a copy of the list to avoid ConcurrentModificationException
+        List<Enemy> enemiesToRemove = new ArrayList<>();
+        
+        for (Enemy enemy : enemies) {
             enemy.update();
             if (enemy.getY() > image.getHeight()) {
-                it.remove();
+                enemiesToRemove.add(enemy);
                 player.setHealth(player.getHealth() - 10);
                 if (player.getHealth() <= 0) {
                     gameOver = true;
                     waitingForRestart = true;
                     gameOverTime = System.currentTimeMillis();
                     if (!deathSoundPlayed) {
-                        SoundManager.getInstance().playSound("die", false); // Play die sound
+                        SoundManager.getInstance().playSound("die", false);
                         deathSoundPlayed = true;
-                        SoundManager.getInstance().stopSound("background"); // Stop background music on death
+                        SoundManager.getInstance().stopSound("background");
                     }
                 }
             }
         }
+        
+        // Remove all enemies that need to be removed
+        enemies.removeAll(enemiesToRemove);
     }
 
     private void updatePowerUps() {
@@ -1147,21 +1151,28 @@ public class SpaceLevel extends Level {
     public void draw(Graphics2D g2) {
         Graphics2D g = (Graphics2D) image.getGraphics();
         g.clearRect(0, 0, image.getWidth(), image.getHeight());
-
+    
         if (showingVictoryText) {
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, image.getWidth(), image.getHeight());
         } else {
             backgroundManager.draw(g);
         }
-
+    
+        // Draw player health in top right corner
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        String healthText = "Health: " + player.getHealth();
+        int healthWidth = g.getFontMetrics().stringWidth(healthText);
+        g.drawString(healthText, image.getWidth() - healthWidth - 20, 30); // 20px from right, 30px from top
+    
         if (gameOver) {
             g.setColor(Color.RED);
             g.setFont(new Font("Arial", Font.BOLD, 36));
             String text = "GAME OVER";
             int width = g.getFontMetrics().stringWidth(text);
             g.drawString(text, (image.getWidth() - width) / 2, image.getHeight() / 2 - 50);
-
+    
             g.setFont(new Font("Arial", Font.PLAIN, 24));
             String restart = "Press any key to restart";
             int restartWidth = g.getFontMetrics().stringWidth(restart);
@@ -1174,26 +1185,26 @@ public class SpaceLevel extends Level {
             String text = "LEVEL " + levelNumber + " COMPLETED!";
             int width = g.getFontMetrics().stringWidth(text);
             g.drawString(text, (image.getWidth() - width) / 2, image.getHeight() / 2);
-
+    
             g.setFont(new Font("Arial", Font.PLAIN, 24));
             String countdown = "Next level in: "
                     + ((5000 - (System.currentTimeMillis() - levelCompleteTime)) / 1000 + 1) + "s";
             int cwidth = g.getFontMetrics().stringWidth(countdown);
             g.drawString(countdown, (image.getWidth() - cwidth) / 2, image.getHeight() / 2 + 50);
         }
-
+    
         if (!showingVictoryText) {
             // Create defensive copies of the collections
             List<Bullet> bulletsCopy = new ArrayList<>(bullets);
             List<Enemy> enemiesCopy = new ArrayList<>(enemies);
             List<PowerUp> powerUpsCopy = new ArrayList<>(powerUps);
-
+    
             player.draw(g);
             bulletsCopy.forEach(b -> b.draw(g));
             enemiesCopy.forEach(e -> e.draw(g));
             powerUpsCopy.forEach(p -> p.draw(g));
         }
-
+    
         g2.drawImage(image, 0, 0, null);
         g.dispose();
     }
@@ -1280,7 +1291,7 @@ public class SpaceLevel extends Level {
         gamePanel.repaint();
     }
 
-    private void restartGame() {
+    public void restartGame() {
         gameOver = false;
         waitingForRestart = false;
         levelNumber = 1;
@@ -1288,6 +1299,7 @@ public class SpaceLevel extends Level {
         bullets.clear();
         powerUps.clear();
         initializeLevel();
+        gamePanel.setPaused(false);
         levelCompleted = false;
         showingCompletionText = false;
         gameWon = false;

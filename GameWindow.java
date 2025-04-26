@@ -65,9 +65,9 @@ public class GameWindow extends JFrame
 		// create buttons
 
 		startB = new JButton("Start Game");
-		pauseB = new JButton("Pause Game");
+		pauseB = new JButton("Pause/Unpause Game");
 		endB = new JButton("End Game");
-		startNewB = new JButton("Start New Game");
+		startNewB = new JButton("Restart Game");
 		focusB = new JButton("Show Animation");
 		exitB = new JButton("Exit");
 
@@ -121,9 +121,9 @@ public class GameWindow extends JFrame
 
 		buttonPanel.add(startB);
 		buttonPanel.add(pauseB);
-		buttonPanel.add(endB);
+		// buttonPanel.add(endB);
 		buttonPanel.add(startNewB);
-		buttonPanel.add(focusB);
+		// buttonPanel.add(focusB);
 		buttonPanel.add(exitB);
 
 		// add sub-panels with GUI objects to mainPanel and set its colour
@@ -168,6 +168,7 @@ public class GameWindow extends JFrame
 		}
 
 		if (command.equals(pauseB.getText())) {
+			gamePanel.pause();
 			// gamePanel.pauseGame();
 			// if (command.equals("Pause Game"))
 			// pauseB.setText ("Resume");
@@ -176,14 +177,15 @@ public class GameWindow extends JFrame
 
 		}
 
-		if (command.equals(endB.getText())) {
-			// gamePanel.endGame();
-		}
+		// if (command.equals(endB.getText())) {
+		// 	// gamePanel.endGame();
+		// }
 
 		if (command.equals(startNewB.getText()))
+			gamePanel.restart();
 			// gamePanel.startNewGame();
 
-			if (command.equals(focusB.getText()))
+			// if (command.equals(focusB.getText()))
 				// gamePanel.showAnimation();
 
 				if (command.equals(exitB.getText()))

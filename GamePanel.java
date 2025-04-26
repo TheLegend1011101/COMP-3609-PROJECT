@@ -194,8 +194,9 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable {
-    private Level currentLevel;
+    private SpaceLevel currentLevel;
     private boolean isRunning;
+    private boolean paused = false;
     private Thread gameThread;
     private int level = 1;
 
@@ -212,9 +213,11 @@ public class GamePanel extends JPanel implements Runnable {
         try {
             isRunning = true;
             while (isRunning) {
-                currentLevel.update(); // Update the current level
-                gameRender();
-                Thread.sleep(50);
+                if (!paused) {
+                    currentLevel.update(); // Update the current level
+                    gameRender(); // Render the game
+                }
+                Thread.sleep(50); // Control frame rate
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -258,6 +261,22 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void handleKeyRelease(KeyEvent e) {
         currentLevel.handleKeyRelease(e); // Send input to Level
+    }
+
+    public void pause(){
+        paused = !paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }   
+
+    public void restart() {
+        if (currentLevel != null) {
+            currentLevel.restartGame(); // Restart the current level
+        } else {
+            System.out.println("No level to restart.");
+        }
     }
 
     public void nextLevel() {
