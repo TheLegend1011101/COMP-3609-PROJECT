@@ -7,7 +7,7 @@ public abstract class Player {
     protected int dx, dy;
     protected Level level;
     protected int bulletsPerShot = 1;
-    protected int health = 50;
+    protected int health = 100;
     protected int damage = 10;  // Damage dealt by the player
     // protected int speed;
     Player(int x, int y, int width, int height, Level level) {
@@ -31,6 +31,13 @@ public abstract class Player {
     }
     public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);  // Create and return the bounding box
+    }
+
+    public int getWidth() {
+        return width;  // Get the player's width
+    }
+    public int getHeight() {
+        return height;  // Get the player's height
     }
 
     public void setBulletsPerShot(int bullets) {

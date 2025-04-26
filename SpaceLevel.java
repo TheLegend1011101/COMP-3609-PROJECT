@@ -882,6 +882,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.Color;
@@ -903,20 +904,34 @@ public class SpaceLevel extends Level {
     private long gameOverTime;
     private BufferedImage image;
     private static final int MAX_POWERUPS_ON_SCREEN = 5;
-
+    private TileMap tileMap;
+    private int offsetX = 0; // Horizontal scrolling offset
+    private int offsetY = 0; // Vertical scrolling offset (if needed)
     private boolean gameWon = false;
     private long gameWonTime;
     private boolean showingVictoryText = false;
     private boolean deathSoundPlayed = false;
-
+    private BufferedImage asteroidImage;
+    private int collisionFrames = 20;
+    private List<TileMap> maps;
     public SpaceLevel(int levelNumber, GamePanel gamePanel) {
         image = new BufferedImage(600, 500, BufferedImage.TYPE_INT_RGB);
+        this.asteroidImage = ImageManager.loadBufferedImage("images/big-a.png");
         this.levelNumber = levelNumber;
         this.levelCompleted = false;
         this.showingCompletionText = false;
         this.enemies = new ArrayList<>();
         this.bullets = new ArrayList<>();
         this.powerUps = new ArrayList<>();
+        this.maps = new ArrayList<>();
+        try{
+            maps.add(new TileMap("level1.txt", 50, 50));
+            maps.add(new TileMap("level2.txt", 50, 50));
+            maps.add(new TileMap("level3.txt", 50, 50));
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
         this.gamePanel = gamePanel;
         initializeLevel();
         SoundManager.getInstance().playSound("background", true);
@@ -924,6 +939,7 @@ public class SpaceLevel extends Level {
 
     private void initializeLevel() {
         this.player = new SpacePlayer(300, 450, this);
+        tileMap = maps.get(levelNumber-1);
         setupBackground();
         spawnEnemies();
     }
@@ -1019,6 +1035,12 @@ public class SpaceLevel extends Level {
 
         backgroundManager.moveDown();
         player.update();
+        collisionFrames++;
+        updatePlayerPosition(player);
+        if (checkCollision(player) && collisionFrames > 20) {
+            collisionFrames = 0; // Reset collision frames
+            player.takeDamage(10); // Handle collision
+        }
         updateBullets();
         updateEnemies();
         updatePowerUps();
@@ -1079,6 +1101,49 @@ public class SpaceLevel extends Level {
     private void checkCollisions() {
         checkBulletCollisions();
         checkPowerUpCollisions();
+    }
+
+    // public boolean checkCollision(Player player) {
+    //     int tileWidth = tileMap.getTileWidth();
+    //     int tileHeight = tileMap.getTileHeight();
+    
+    //     int playerCol = (player.getX() + offsetX) / tileWidth;
+    //     int playerRow = (player.getY() + offsetY) / tileHeight;
+    
+    //     int[][] map = tileMap.getMap();
+    //     if (playerRow >= 0 && playerRow < map.length && playerCol >= 0 && playerCol < map[0].length) {
+    //         return map[playerRow][playerCol] == 1; // Collision if tile contains an asteroid
+    //     }
+    //     return false;
+    // }
+
+    public boolean checkCollision(Player player) {
+        int tileWidth = tileMap.getTileWidth();
+        int tileHeight = tileMap.getTileHeight();
+        int[][] map = tileMap.getMap();
+        
+        // Get player bounds in tile coordinates
+        int leftTile = (player.getX() + offsetX) / tileWidth;
+        int rightTile = (player.getX() + offsetX + player.getWidth() - 1) / tileWidth;
+        int topTile = (player.getY() + offsetY) / tileHeight;
+        int bottomTile = (player.getY() + offsetY + player.getHeight() - 1) / tileHeight;
+        
+        // Check all tiles the player overlaps with
+        for (int row = topTile; row <= bottomTile; row++) {
+            for (int col = leftTile; col <= rightTile; col++) {
+                // Check bounds
+                if (row >= 0 && row < map.length && col >= 0 && col < map[row].length) {
+                    // Check if tile is solid (1 represents asteroid in this case)
+                    if (map[row][col] == 1) {
+                        return true;
+                    }
+                } else {
+                    // Treat out-of-bounds as collision if needed
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void checkBulletCollisions() {
@@ -1148,6 +1213,32 @@ public class SpaceLevel extends Level {
         }
     }
 
+    public void updatePlayerPosition(Player player) {
+        offsetX = Math.max(0, player.getX() - 300); // Keep player centered horizontally
+    }
+
+    public void drawTileMap(Graphics2D g) {
+        int[][] map = tileMap.getMap();
+        int tileWidth = tileMap.getTileWidth();
+        int tileHeight = tileMap.getTileHeight();
+    
+        int startCol = offsetX / tileWidth;
+        int startRow = offsetY / tileHeight;
+    
+        int endCol = Math.min(startCol + (600 / tileWidth) + 1, map[0].length); // Assuming screen width = 600
+        int endRow = Math.min(startRow + (500 / tileHeight) + 1, map.length);  // Assuming screen height = 500
+    
+        for (int row = startRow; row < endRow; row++) {
+            for (int col = startCol; col < endCol; col++) {
+                if (map[row][col] == 1) { // Draw asteroid tile
+                    g.drawImage(asteroidImage, (col * tileWidth) - offsetX, (row * tileHeight) - offsetY, tileWidth, tileHeight, null);
+                    // g.setColor(Color.GRAY);
+                    // g.fillRect((col * tileWidth) - offsetX, (row * tileHeight) - offsetY, tileWidth, tileHeight);
+                }
+            }
+        }
+    }
+
     public void draw(Graphics2D g2) {
         Graphics2D g = (Graphics2D) image.getGraphics();
         g.clearRect(0, 0, image.getWidth(), image.getHeight());
@@ -1160,11 +1251,9 @@ public class SpaceLevel extends Level {
         }
     
         // Draw player health in top right corner
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 20));
-        String healthText = "Health: " + player.getHealth();
-        int healthWidth = g.getFontMetrics().stringWidth(healthText);
-        g.drawString(healthText, image.getWidth() - healthWidth - 20, 30); // 20px from right, 30px from top
+        if(!showingVictoryText) {
+        drawTileMap(g);
+        }
     
         if (gameOver) {
             g.setColor(Color.RED);
@@ -1198,12 +1287,18 @@ public class SpaceLevel extends Level {
             List<Bullet> bulletsCopy = new ArrayList<>(bullets);
             List<Enemy> enemiesCopy = new ArrayList<>(enemies);
             List<PowerUp> powerUpsCopy = new ArrayList<>(powerUps);
-    
             player.draw(g);
             bulletsCopy.forEach(b -> b.draw(g));
             enemiesCopy.forEach(e -> e.draw(g));
             powerUpsCopy.forEach(p -> p.draw(g));
         }
+
+        
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        String healthText = "Health: " + player.getHealth();
+        int healthWidth = g.getFontMetrics().stringWidth(healthText);
+        g.drawString(healthText, image.getWidth() - healthWidth - 20, 30); // 20px from right, 30px from top
     
         g2.drawImage(image, 0, 0, null);
         g.dispose();
