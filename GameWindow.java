@@ -102,14 +102,14 @@ public class GameWindow extends JFrame
 
 		// add user interface objects to infoPanel
 
-		infoPanel.add(statusBarL);
-		infoPanel.add(statusBarTF);
+		// infoPanel.add(statusBarL);
+		// infoPanel.add(statusBarTF);
 
-		infoPanel.add(keyL);
-		infoPanel.add(keyTF);
+		// infoPanel.add(keyL);
+		// infoPanel.add(keyTF);
 
-		infoPanel.add(mouseL);
-		infoPanel.add(mouseTF);
+		// infoPanel.add(mouseL);
+		// infoPanel.add(mouseTF);
 
 		// create buttonPanel
 

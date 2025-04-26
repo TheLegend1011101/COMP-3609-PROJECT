@@ -20,8 +20,8 @@ public class SoundManager { // a Singleton class
 		// Clip clip = loadClip("sounds/background.wav");
 		// clips.put("background", clip); // background theme sound
 
-		clip = loadClip("sounds/hitSound.wav");
-		clips.put("hit", clip); // played when player's sprite collides
+		// clip = loadClip("sounds/hitSound.wav");
+		// clips.put("hit", clip); // played when player's sprite collides
 		// with another sprice
 
 		clip = loadClip("sounds/appearSound.wav");

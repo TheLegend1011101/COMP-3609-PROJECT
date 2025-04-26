@@ -14,7 +14,7 @@ public class SpaceBullet extends Bullet {
         this.x = startX;
         this.y = startY;
         this.owner = owner;
-        this.speed = (owner == BulletOwner.PLAYER) ? -10 : 5;
+        this.speed = (owner == BulletOwner.PLAYER) ? -15 : 5;
         this.damage = damage;  // Set the damage value
         if(owner == BulletOwner.PLAYER){
             image = ImageManager.loadBufferedImage("images/playerbullet.png"); // Load player bullet image

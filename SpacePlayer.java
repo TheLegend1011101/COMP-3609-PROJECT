@@ -280,6 +280,7 @@ public class SpacePlayer extends Player {
     public SpacePlayer(int x, int y, Level level) {
         super(x, y, 50, 50, level);
         loadSpriteSheet();
+        damage = 30;
     }
 
     private void loadSpriteSheet() {
@@ -379,17 +380,66 @@ public class SpacePlayer extends Player {
         currentImageIndex = targetIndex;
     }
 
+    // public void draw(Graphics2D g2) {
+    //     if (shipImages[currentImageIndex] != null) {
+    //         if (flashing && flashTimer % 4 < 2) {
+    //             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
+    //         }
+    //         g2.drawImage(shipImages[currentImageIndex], x, y, width, height, null);
+    //         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+    //     } else {
+    //         g2.setColor(Color.BLUE);
+    //         g2.fillRect(x, y, width, height);
+    //     }
+    // }
+
     public void draw(Graphics2D g2) {
-        if (shipImages[currentImageIndex] != null) {
-            if (flashing && flashTimer % 4 < 2) {
-                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
-            }
-            g2.drawImage(shipImages[currentImageIndex], x, y, width, height, null);
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-        } else {
+        BufferedImage imgToDraw = shipImages[currentImageIndex];
+        
+        if (imgToDraw == null) {
             g2.setColor(Color.BLUE);
             g2.fillRect(x, y, width, height);
+            return;
         }
+    
+        // Apply brightness effect if flashing
+        if (flashing && flashTimer % 4 < 2) {
+            imgToDraw = createBrightenedImage(imgToDraw, 2.0f); // 1.5x brightness
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f));
+        } else {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+        }
+    
+        g2.drawImage(imgToDraw, x, y, width, height, null);
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+    }
+    
+    private BufferedImage createBrightenedImage(BufferedImage original, float brightnessFactor) {
+        BufferedImage brightened = new BufferedImage(
+            original.getWidth(), 
+            original.getHeight(), 
+            BufferedImage.TYPE_INT_ARGB
+        );
+        
+        int[] pixels = new int[original.getWidth() * original.getHeight()];
+        original.getRGB(0, 0, original.getWidth(), original.getHeight(), pixels, 0, original.getWidth());
+        
+        for (int i = 0; i < pixels.length; i++) {
+            int a = (pixels[i] >> 24) & 0xff;
+            int r = (pixels[i] >> 16) & 0xff;
+            int g = (pixels[i] >> 8) & 0xff;
+            int b = pixels[i] & 0xff;
+            
+            // Increase brightness while keeping within 0-255 range
+            r = Math.min(255, (int)(r * brightnessFactor));
+            g = Math.min(255, (int)(g * brightnessFactor));
+            b = Math.min(255, (int)(b * brightnessFactor));
+            
+            pixels[i] = (a << 24) | (r << 16) | (g << 8) | b;
+        }
+        
+        brightened.setRGB(0, 0, original.getWidth(), original.getHeight(), pixels, 0, original.getWidth());
+        return brightened;
     }
 
     // public void shoot() {
