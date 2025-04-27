@@ -118,19 +118,36 @@ public class Background {
         this.bgDY = bgDY;
     }
 
+    // public void moveDown() {
+    //     if (bgY == 0) {
+    //         backgroundY = 0;
+    //         backgroundY2 = -bgImageHeight;   // Start the second image just above the first one
+    //     }
+
+    //     bgY = bgY + bgDY;
+
+    //     backgroundY = backgroundY + bgDY;
+    //     backgroundY2 = backgroundY2 + bgDY;
+
+    //     if ((bgY) % bgImageHeight == 0) {
+    //         // System.out.println("Background change: bgY = " + bgY);
+    //         backgroundY = 0;
+    //         backgroundY2 = -bgImageHeight;
+    //     }
+    // }
+
     public void moveDown() {
-        if (bgY == 0) {
-            backgroundY = 0;
-            backgroundY2 = -bgImageHeight;   // Start the second image just above the first one
-        }
-
-        bgY = bgY + bgDY;
-
-        backgroundY = backgroundY + bgDY;
-        backgroundY2 = backgroundY2 + bgDY;
-
-        if ((bgY) % bgImageHeight == 0) {
-            // System.out.println("Background change: bgY = " + bgY);
+        bgY += bgDY;  // Increment position
+    
+        backgroundY = bgY % bgImageHeight;  // Wrap around
+        backgroundY2 = (bgY % bgImageHeight) - bgImageHeight;  // Second copy above
+    
+        // Alternative (more readable) version:
+        // backgroundY += bgDY;
+        // backgroundY2 += bgDY;
+    
+        // Reset positions when one image fully exits the screen
+        if (backgroundY >= bgImageHeight) {
             backgroundY = 0;
             backgroundY2 = -bgImageHeight;
         }

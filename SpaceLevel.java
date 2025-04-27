@@ -994,9 +994,9 @@ public class SpaceLevel extends Level {
             spawnBezierEnemies(0);
             spawnSineWaveEnemies(50);
             spawnSineWaveEnemies(-150);
-            spawnBezierEnemies(75);
         } else if (levelNumber == 3) {
             spawnBezierEnemies(0);
+            spawnBezierEnemies(75);
             spawnSineWaveEnemies(50);
             spawnSineWaveEnemies(-150);
             spawnCircularEnemies(250);
@@ -1146,29 +1146,60 @@ public class SpaceLevel extends Level {
         return false;
     }
 
-    private void checkBulletCollisions() {
-        Iterator<Bullet> it = bullets.iterator();
-        while (it.hasNext()) {
-            Bullet bullet = it.next();
+    // private void checkBulletCollisions() {
+    //     Iterator<Bullet> it = bullets.iterator();
+    //     while (it.hasNext()) {
+    //         Bullet bullet = it.next();
 
+    //         if (bullet.getOwner() == Bullet.BulletOwner.PLAYER) {
+    //             Iterator<Enemy> eit = enemies.iterator();
+    //             while (eit.hasNext()) {
+    //                 Enemy enemy = eit.next();
+    //                 if (bullet.getBounds().intersects(enemy.getBounds())) {
+    //                     enemy.setHealth(enemy.getHealth() - bullet.getDamage());
+    //                     it.remove();
+    //                     if (enemy.getHealth() <= 0) {
+    //                         eit.remove();
+    //                     }
+    //                     break;
+    //                 }
+    //             }
+    //         } else if (bullet.getOwner() == Bullet.BulletOwner.ENEMY) {
+    //             if (bullet.getBounds().intersects(player.getBounds())) {
+    //                 player.takeDamage(bullet.getDamage());
+    //                 SoundManager.getInstance().playSound("hit", false); // Play hit sound
+    //                 it.remove();
+    //             }
+    //         }
+    //     }
+    // }
+
+    private void checkBulletCollisions() {
+        // Create a copy of bullets to iterate over
+        List<Bullet> bulletsCopy = new ArrayList<>(bullets);
+        
+        for (Bullet bullet : bulletsCopy) {
             if (bullet.getOwner() == Bullet.BulletOwner.PLAYER) {
-                Iterator<Enemy> eit = enemies.iterator();
-                while (eit.hasNext()) {
-                    Enemy enemy = eit.next();
+                // Create a copy of enemies to avoid concurrent modification
+                List<Enemy> enemiesCopy = new ArrayList<>(enemies);
+                
+                for (Enemy enemy : enemiesCopy) {
                     if (bullet.getBounds().intersects(enemy.getBounds())) {
                         enemy.setHealth(enemy.getHealth() - bullet.getDamage());
-                        it.remove();
+                        bullets.remove(bullet); // Safe because we're modifying the original list
+                        
                         if (enemy.getHealth() <= 0) {
-                            eit.remove();
+                            enemies.remove(enemy); // Safe because we're modifying the original list
                         }
-                        break;
+                        break; // Exit enemy loop after first hit
                     }
                 }
-            } else if (bullet.getOwner() == Bullet.BulletOwner.ENEMY) {
+            } 
+            else if (bullet.getOwner() == Bullet.BulletOwner.ENEMY) {
                 if (bullet.getBounds().intersects(player.getBounds())) {
                     player.takeDamage(bullet.getDamage());
-                    SoundManager.getInstance().playSound("hit", false); // Play hit sound
-                    it.remove();
+                    bullets.remove(bullet); // Safe because we're modifying the original list
+                    SoundManager.getInstance().playSound("hit", false);
                 }
             }
         }

@@ -47,9 +47,9 @@ public class ProjectileBullet extends Bullet {
     @Override
     public void draw(Graphics2D g2) {
         if (!active) return;
-        g2.drawImage(image, x, y, width, height, null); // Draw the bullet image at its current position
-        // g2.setColor(Color.ORANGE); // Different color for projectile bullets
-        // g2.fill(new Ellipse2D.Double(x, y, width, height));
+        // g2.drawImage(image, x, y, width, height, null); // Draw the bullet image at its current position
+        g2.setColor(Color.ORANGE); // Different color for projectile bullets
+        g2.fill(new Ellipse2D.Double(x, y, width, height));
     }
 
 
