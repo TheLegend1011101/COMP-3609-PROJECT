@@ -193,12 +193,16 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
 
+
 public class GamePanel extends JPanel implements Runnable {
     private SpaceLevel currentLevel;
     private boolean isRunning;
     private boolean paused = false;
     private Thread gameThread;
     private int level = 1;
+ 
+
+
 
     public GamePanel() {
         isRunning = false;
