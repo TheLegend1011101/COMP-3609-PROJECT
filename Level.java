@@ -3,8 +3,9 @@ import java.awt.event.*;
 import java.util.*;
 import java.awt.image.BufferedImage;
 import java.awt.Rectangle;
-
 public abstract class Level {
+    protected Player player;
+    protected List<Enemy> enemies;
     protected BufferedImage image; // Image for the level background (if needed)
     protected List<Bullet> bullets = new ArrayList<>();
     // protected List<ArcingBullet> arcingBullets = new ArrayList<>();
@@ -70,7 +71,13 @@ public abstract class Level {
     //             bullet.getX() < -bullet.getWidth() ||
     //             bullet.getX() > screenWidth;
     // }
+    public Player getPlayer(){
+        return player;
+    }
 
+    public List<Enemy> getEnemies(){
+        return enemies;
+    }
     public void draw(Graphics2D g) {
         // Draw the level (e.g., player, enemies, bullets)
         for (Bullet bullet : bullets) {

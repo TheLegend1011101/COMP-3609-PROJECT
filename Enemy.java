@@ -8,7 +8,7 @@ import java.awt.Color;
 
 public class Enemy {
     protected int x, y;
-    private int width = 40, height = 40;
+    protected int width = 40, height = 40;
     private int speed = 2;
     protected int health; // Health of the enemy
     protected int damage; // Damage dealt by the enemy

@@ -444,21 +444,6 @@ public class SpacePlayer extends Player {
         return brightened;
     }
 
-    // public void shoot() {
-    //     List<Bullet> bullets = new ArrayList<>();
-    //     if (bulletsPerShot == 1) {
-    //         int bulletX = x + width / 2;
-    //         bullets.add(new SpaceBullet(bulletX, y, SpaceBullet.BulletOwner.PLAYER, damage));
-    //     } else {
-    //         float spacing = width / (float) (bulletsPerShot - 1);
-    //         for (int i = 0; i < bulletsPerShot; i++) {
-    //             int bulletX = (int) (x + i * spacing);
-    //             bullets.add(new SpaceBullet(bulletX, y, SpaceBullet.BulletOwner.PLAYER, damage));
-    //         }
-    //     }
-    //     level.addBullets(bullets);
-    //     SoundManager.getInstance().playSound("shoot", false);
-    // }
 
     public void shoot() {
         if(shootCount <= 5) return; // Prevent shooting if shootCount is 0
@@ -522,7 +507,7 @@ public class SpacePlayer extends Player {
     }
 
     public void takeDamage(int amount) {
-        health -= amount;
+        // health -= amount;
         flashing = true;
         flashTimer = flashDuration;
     }
