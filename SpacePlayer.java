@@ -507,7 +507,7 @@ public class SpacePlayer extends Player {
     }
 
     public void takeDamage(int amount) {
-        // health -= amount;
+        health -= amount;
         flashing = true;
         flashTimer = flashDuration;
     }
