@@ -276,6 +276,7 @@ public class SpacePlayer extends Player {
     private boolean flashing = false;
     private int flashTimer = 0;
     private int flashDuration = 20;
+    private int shootCount = 10;
 
     public SpacePlayer(int x, int y, Level level) {
         super(x, y, 40, 40, level);
@@ -332,6 +333,7 @@ public class SpacePlayer extends Player {
     }
 
     public void update() {
+        shootCount++;
         // Handle movement
         if (movingLeft && x > 0) x -= dx;
         if (movingRight && x < 550) x += dx;
@@ -459,8 +461,9 @@ public class SpacePlayer extends Player {
     // }
 
     public void shoot() {
+        if(shootCount <= 5) return; // Prevent shooting if shootCount is 0
         List<Bullet> bullets = new ArrayList<>();
-    
+        shootCount = 0; // Reset shootCount after shooting
         if (bulletsPerShot == 1) {
             // Center bullet on player
             int bulletX = x + (width / 2) - 13;  // Adjust -3 as needed for fine-tuning

@@ -925,9 +925,9 @@ public class SpaceLevel extends Level {
         this.powerUps = new ArrayList<>();
         this.maps = new ArrayList<>();
         try{
-            maps.add(new TileMap("level1.txt", 50, 50));
-            maps.add(new TileMap("level2.txt", 50, 50));
-            maps.add(new TileMap("level3.txt", 50, 50));
+            maps.add(new TileMap("maps/level1.txt", 50, 50));
+            maps.add(new TileMap("maps/level2.txt", 50, 50));
+            maps.add(new TileMap("maps/level3.txt", 50, 50));
         }
         catch(IOException e){
             e.printStackTrace();
@@ -1341,7 +1341,7 @@ public class SpaceLevel extends Level {
         g.drawString(healthText, image.getWidth() - healthWidth - 20, 30); // 20px from right, 30px from top
     
         g2.drawImage(image, 0, 0, null);
-        g2.dispose();
+        g.dispose();
     }
 
     public void addBullet(SpaceBullet bullet) {
