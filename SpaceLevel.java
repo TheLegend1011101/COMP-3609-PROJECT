@@ -914,9 +914,15 @@ public class SpaceLevel extends Level {
     private BufferedImage asteroidImage;
     private int collisionFrames = 20;
     private List<TileMap> maps;
+    private BufferedImage fullHealth;
+    private BufferedImage halfHealth;
+    private BufferedImage noHealth;
     public SpaceLevel(int levelNumber, GamePanel gamePanel) {
         image = new BufferedImage(600, 500, BufferedImage.TYPE_INT_RGB);
         this.asteroidImage = ImageManager.loadBufferedImage("images/big-a.png");
+        this.fullHealth = ImageManager.loadBufferedImage("images/fullhealth.png");
+        this.halfHealth = ImageManager.loadBufferedImage("images/halfhealth.png");
+        this.noHealth = ImageManager.loadBufferedImage("images/nohealth.png");
         this.levelNumber = levelNumber;
         this.levelCompleted = false;
         this.showingCompletionText = false;
@@ -1278,21 +1284,111 @@ public class SpaceLevel extends Level {
         }
     }
 
+    // public void draw(Graphics2D g2) {
+    //     Graphics2D g = (Graphics2D) image.getGraphics();
+    //     g.clearRect(0, 0, image.getWidth(), image.getHeight());
+    
+    //     // if (showingVictoryText) {
+    //     //     g.setColor(Color.BLACK);
+    //     //     g.fillRect(0, 0, image.getWidth(), image.getHeight());
+    //     // } else {
+    //     //     backgroundManager.draw(g);
+    //     // }
+    //     backgroundManager.draw(g);
+    
+    //     // Draw player health in top right corner
+    //     if(!showingVictoryText) {
+    //     drawTileMap(g);
+    //     }
+    
+    //     if (gameOver) {
+    //         g.setColor(Color.RED);
+    //         g.setFont(new Font("Arial", Font.BOLD, 36));
+    //         String text = "GAME OVER";
+    //         int width = g.getFontMetrics().stringWidth(text);
+    //         g.drawString(text, (image.getWidth() - width) / 2, image.getHeight() / 2 - 50);
+    
+    //         g.setFont(new Font("Arial", Font.PLAIN, 24));
+    //         String restart = "Press any key to restart";
+    //         int restartWidth = g.getFontMetrics().stringWidth(restart);
+    //         g.drawString(restart, (image.getWidth() - restartWidth) / 2, image.getHeight() / 2 + 20);
+    //     } else if (showingVictoryText) {
+    //         drawVictoryScreen(g);
+    //     } else if (showingCompletionText) {
+    //         g.setColor(Color.GREEN);
+    //         g.setFont(new Font("Arial", Font.BOLD, 36));
+    //         String text = "LEVEL " + levelNumber + " COMPLETED!";
+    //         int width = g.getFontMetrics().stringWidth(text);
+    //         g.drawString(text, (image.getWidth() - width) / 2, image.getHeight() / 2);
+    
+    //         g.setFont(new Font("Arial", Font.PLAIN, 24));
+    //         String countdown = "Next level in: "
+    //                 + ((5000 - (System.currentTimeMillis() - levelCompleteTime)) / 1000 + 1) + "s";
+    //         int cwidth = g.getFontMetrics().stringWidth(countdown);
+    //         g.drawString(countdown, (image.getWidth() - cwidth) / 2, image.getHeight() / 2 + 50);
+    //     }
+    
+    //     if (!showingVictoryText) {
+    //         // Create defensive copies of the collections
+    //         List<Bullet> bulletsCopy = new ArrayList<>(bullets);
+    //         List<Enemy> enemiesCopy = new ArrayList<>(enemies);
+    //         List<PowerUp> powerUpsCopy = new ArrayList<>(powerUps);
+    //         player.draw(g);
+    //         bulletsCopy.forEach(b -> b.draw(g));
+    //         enemiesCopy.forEach(e -> e.draw(g));
+    //         powerUpsCopy.forEach(p -> p.draw(g));
+    //     }
+
+        
+    //     // g.setColor(Color.WHITE);
+    //     // g.setFont(new Font("Arial", Font.BOLD, 20));
+    //     // String healthText = "Health: " + Math.max(0,player.getHealth());
+    //     // int healthWidth = g.getFontMetrics().stringWidth(healthText);
+    //     // g.drawString(healthText, image.getWidth() - healthWidth - 20, 30); // 20px from right, 30px from top
+    //     int heartSize = 20; // Size of each heart in pixels
+    //     int heartSpacing = 5; // Space between hearts
+    //     int totalHearts = 5; // Number of hearts to display
+    //     int healthPerHeart = 100 / totalHearts; // 20 health per heart
+
+    //     // Calculate full hearts and partial heart percentage
+    //     int fullHearts = player.getHealth() / healthPerHeart;
+    //     float partialHeart = (player.getHealth() % healthPerHeart) / (float)healthPerHeart;
+
+    //     // Draw hearts from right to left (so they appear anchored to the right)
+    //     int startX = image.getWidth() - 30; // Start 30px from right edge
+
+    //     for (int i = totalHearts - 1; i >= 0; i--) {
+    //         int x = startX - (i * (heartSize + heartSpacing));
+            
+    //         // Draw empty heart outline
+    //         g.setColor(Color.WHITE);
+    //         g.drawOval(x, 10, heartSize, heartSize);
+            
+    //         // Fill heart if it should be full or partial
+    //         if (i < fullHearts) {
+    //             // Full heart
+    //             g.setColor(Color.RED);
+    //             g.fillOval(x, 10, heartSize, heartSize);
+    //         } else if (i == fullHearts && partialHeart > 0) {
+    //             // Partial heart
+    //             g.setColor(Color.RED);
+    //             int partialWidth = (int)(heartSize * partialHeart);
+    //             g.fillOval(x, 10, partialWidth, heartSize);
+    //         }
+    //     }
+    
+    //     g2.drawImage(image, 0, 0, null);
+    //     g.dispose();
+    // }
+
     public void draw(Graphics2D g2) {
         Graphics2D g = (Graphics2D) image.getGraphics();
         g.clearRect(0, 0, image.getWidth(), image.getHeight());
     
-        // if (showingVictoryText) {
-        //     g.setColor(Color.BLACK);
-        //     g.fillRect(0, 0, image.getWidth(), image.getHeight());
-        // } else {
-        //     backgroundManager.draw(g);
-        // }
         backgroundManager.draw(g);
     
-        // Draw player health in top right corner
         if(!showingVictoryText) {
-        drawTileMap(g);
+            drawTileMap(g);
         }
     
         if (gameOver) {
@@ -1323,7 +1419,6 @@ public class SpaceLevel extends Level {
         }
     
         if (!showingVictoryText) {
-            // Create defensive copies of the collections
             List<Bullet> bulletsCopy = new ArrayList<>(bullets);
             List<Enemy> enemiesCopy = new ArrayList<>(enemies);
             List<PowerUp> powerUpsCopy = new ArrayList<>(powerUps);
@@ -1332,13 +1427,38 @@ public class SpaceLevel extends Level {
             enemiesCopy.forEach(e -> e.draw(g));
             powerUpsCopy.forEach(p -> p.draw(g));
         }
-
-        
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 20));
-        String healthText = "Health: " + Math.max(0,player.getHealth());
-        int healthWidth = g.getFontMetrics().stringWidth(healthText);
-        g.drawString(healthText, image.getWidth() - healthWidth - 20, 30); // 20px from right, 30px from top
+    
+        // Draw hearts using images
+        int heartSize = 30; // Size of each heart in pixels
+        int heartSpacing = 5; // Space between hearts
+        int totalHearts = 5; // Number of hearts to display
+        int healthPerHeart = 100 / totalHearts; // 20 health per heart
+    
+        // Calculate full hearts and partial heart
+        int fullHearts = player.getHealth() / healthPerHeart;
+        int partialHeartHealth = player.getHealth() % healthPerHeart;
+    
+        // Draw hearts from right to left (so they appear anchored to the right)
+        int startX = image.getWidth() - 30; // Start 30px from right edge
+    
+        for (int i = totalHearts - 1; i >= 0; i--) {
+            int x = startX - (i * (heartSize + heartSpacing));
+            
+            if (i < fullHearts) {
+                // Full heart
+                g.drawImage(fullHealth, x, 10, heartSize, heartSize, null);
+            } else if (i == fullHearts && partialHeartHealth > 0) {
+                // Partial heart (half heart)
+                if (partialHeartHealth >= healthPerHeart / 2) {
+                    g.drawImage(halfHealth, x, 10, heartSize, heartSize, null);
+                } else {
+                    g.drawImage(noHealth, x, 10, heartSize, heartSize, null);
+                }
+            } else {
+                // Empty heart
+                g.drawImage(noHealth, x, 10, heartSize, heartSize, null);
+            }
+        }
     
         g2.drawImage(image, 0, 0, null);
         g.dispose();

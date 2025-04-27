@@ -281,7 +281,7 @@ public class SpacePlayer extends Player {
     public SpacePlayer(int x, int y, Level level) {
         super(x, y, 40, 40, level);
         loadSpriteSheet();
-        damage = 30;
+        damage = 10;
     }
 
     private void loadSpriteSheet() {

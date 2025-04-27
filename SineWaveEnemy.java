@@ -11,6 +11,7 @@ public class SineWaveEnemy extends Enemy {
         this.baseX = startX;
         this.phase = 0;
         image = ImageManager.loadBufferedImage("images/enemy-small.png");
+        health = 20;
     }
 
     @Override
