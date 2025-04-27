@@ -20,14 +20,8 @@ public class BackgroundManager {
 			       	     "images\\T_YellowBackground_Version4_Layer2.png",
 							"images\\T_YellowBackground_Version4_Layer3.png",
 						"images\\T_YellowBackground_Version4_Layer4.png"};
-				    //  "images/layer_06.png",
-				    //  "images/layer_05.png",
-				    //  "images/layer_04.png",
-				    //  "images/layer_03.png",
-				    //  "images/layer_02.png",
-			       	//      "images/layer_01.png"};
 
-  	private int moveAmount[] = {1, 2, 3, 4, 4, 4, 5, 10};  
+  	private int moveAmount[] = {2, 4, 6, 8};  
 						// pixel amounts to move each background left or right
      						// a move amount of 0 makes a background stationary
 
@@ -62,7 +56,7 @@ public class BackgroundManager {
 
 	public void moveDown() {
 		for (int i=0; i < numBackgrounds; i++)
-	  			backgrounds[i].moveDown();
+	  			backgrounds[i].moveDown(moveAmount[i]);
   	}
 
 

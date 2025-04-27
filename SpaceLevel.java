@@ -967,6 +967,14 @@ public class SpaceLevel extends Level {
         backgroundManager = new BackgroundManager(gamePanel, 1);
 
         switch (levelNumber) {
+            case 1:
+                backgroundManager.setImages(new String[] {
+                        "images/T_YellowBackground_Version4_Layer1.png",
+                        "images/T_YellowBackground_Version4_Layer2.png",
+                        "images/T_YellowBackground_Version4_Layer3.png",
+                        "images/T_YellowBackground_Version4_Layer4.png"
+                });
+                break;
             case 2:
                 backgroundManager.setImages(new String[] {
                         "images/T_RedBackground_Version4_Layer1.png",
@@ -1274,12 +1282,13 @@ public class SpaceLevel extends Level {
         Graphics2D g = (Graphics2D) image.getGraphics();
         g.clearRect(0, 0, image.getWidth(), image.getHeight());
     
-        if (showingVictoryText) {
-            g.setColor(Color.BLACK);
-            g.fillRect(0, 0, image.getWidth(), image.getHeight());
-        } else {
-            backgroundManager.draw(g);
-        }
+        // if (showingVictoryText) {
+        //     g.setColor(Color.BLACK);
+        //     g.fillRect(0, 0, image.getWidth(), image.getHeight());
+        // } else {
+        //     backgroundManager.draw(g);
+        // }
+        backgroundManager.draw(g);
     
         // Draw player health in top right corner
         if(!showingVictoryText) {
@@ -1327,12 +1336,12 @@ public class SpaceLevel extends Level {
         
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 20));
-        String healthText = "Health: " + player.getHealth();
+        String healthText = "Health: " + Math.max(0,player.getHealth());
         int healthWidth = g.getFontMetrics().stringWidth(healthText);
         g.drawString(healthText, image.getWidth() - healthWidth - 20, 30); // 20px from right, 30px from top
     
         g2.drawImage(image, 0, 0, null);
-        g.dispose();
+        g2.dispose();
     }
 
     public void addBullet(SpaceBullet bullet) {
@@ -1347,11 +1356,31 @@ public class SpaceLevel extends Level {
         return player;
     }
 
+    // public void checkLevelCompletion() {
+    //     if (!levelCompleted && enemies.isEmpty()) {
+    //         levelCompleted = true;
+    //         showingCompletionText = true;
+    //         levelCompleteTime = System.currentTimeMillis();
+    //     }
+    // }
+
     public void checkLevelCompletion() {
         if (!levelCompleted && enemies.isEmpty()) {
             levelCompleted = true;
-            showingCompletionText = true;
-            levelCompleteTime = System.currentTimeMillis();
+            
+            // For final level (3), go straight to victory
+            if (levelNumber >= 3) {
+                gameWon = true;
+                showingVictoryText = true;
+                gameWonTime = System.currentTimeMillis();
+                SoundManager.getInstance().stopSound("background");
+                SoundManager.getInstance().playSound("victory", false);
+            } 
+            // For other levels, show completion text
+            else {
+                showingCompletionText = true;
+                levelCompleteTime = System.currentTimeMillis();
+            }
         }
     }
 
@@ -1397,16 +1426,32 @@ public class SpaceLevel extends Level {
         enemies.add(enemy);
     }
 
+    // public void endLevel() {
+    //     if (levelNumber >= 3) {
+    //         gameWon = true;
+    //         showingVictoryText = true;
+    //         gameWonTime = System.currentTimeMillis();
+    //         SoundManager.getInstance().stopSound("background");
+    //         SoundManager.getInstance().playSound("victory", false);
+    //         return;
+    //     }
+
+    //     enemies.clear();
+    //     bullets.clear();
+    //     powerUps.clear();
+    //     levelNumber++;
+    //     initializeLevel();
+    //     levelCompleted = false;
+    //     showingCompletionText = false;
+    //     gamePanel.repaint();
+    // }
+
     public void endLevel() {
+        // Only proceed if not on final level (victory already handled)
         if (levelNumber >= 3) {
-            gameWon = true;
-            showingVictoryText = true;
-            gameWonTime = System.currentTimeMillis();
-            SoundManager.getInstance().stopSound("background");
-            SoundManager.getInstance().playSound("victory", false);
             return;
         }
-
+    
         enemies.clear();
         bullets.clear();
         powerUps.clear();
@@ -1416,7 +1461,6 @@ public class SpaceLevel extends Level {
         showingCompletionText = false;
         gamePanel.repaint();
     }
-
     public void restartGame() {
         gameOver = false;
         waitingForRestart = false;

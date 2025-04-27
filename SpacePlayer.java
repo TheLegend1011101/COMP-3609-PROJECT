@@ -278,7 +278,7 @@ public class SpacePlayer extends Player {
     private int flashDuration = 20;
 
     public SpacePlayer(int x, int y, Level level) {
-        super(x, y, 50, 50, level);
+        super(x, y, 40, 40, level);
         loadSpriteSheet();
         damage = 30;
     }

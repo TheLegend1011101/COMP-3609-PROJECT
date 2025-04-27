@@ -116,42 +116,43 @@ public class Background {
             // System.out.println("Background height < panel height");
 
         this.bgDY = bgDY;
+        // System.out.println("Background initialized with bgDY = " + bgDY);
     }
 
-    // public void moveDown() {
-    //     if (bgY == 0) {
-    //         backgroundY = 0;
-    //         backgroundY2 = -bgImageHeight;   // Start the second image just above the first one
-    //     }
+    public void moveDown(int x) {
+        if (bgY == 0) {
+            backgroundY = 0;
+            backgroundY2 = -bgImageHeight;   // Start the second image just above the first one
+        }
 
-    //     bgY = bgY + bgDY;
+        bgY = bgY + x;
+        // System.out.println("bgY = " + bgY + "  bgDY = " + bgDY);
+        backgroundY = backgroundY + x;
+        backgroundY2 = backgroundY2 + x;
 
-    //     backgroundY = backgroundY + bgDY;
-    //     backgroundY2 = backgroundY2 + bgDY;
-
-    //     if ((bgY) % bgImageHeight == 0) {
-    //         // System.out.println("Background change: bgY = " + bgY);
-    //         backgroundY = 0;
-    //         backgroundY2 = -bgImageHeight;
-    //     }
-    // }
-
-    public void moveDown() {
-        bgY += bgDY;  // Increment position
-    
-        backgroundY = bgY % bgImageHeight;  // Wrap around
-        backgroundY2 = (bgY % bgImageHeight) - bgImageHeight;  // Second copy above
-    
-        // Alternative (more readable) version:
-        // backgroundY += bgDY;
-        // backgroundY2 += bgDY;
-    
-        // Reset positions when one image fully exits the screen
-        if (backgroundY >= bgImageHeight) {
+        if ((bgY) % bgImageHeight == 0) {
+            // System.out.println("Background change: bgY = " + bgY);
             backgroundY = 0;
             backgroundY2 = -bgImageHeight;
         }
     }
+
+    // public void moveDown() {
+    //     bgY += bgDY;  // Increment position
+    
+    //     backgroundY = bgY % bgImageHeight;  // Wrap around
+    //     backgroundY2 = (bgY % bgImageHeight) - bgImageHeight;  // Second copy above
+    
+    //     // Alternative (more readable) version:
+    //     // backgroundY += bgDY;
+    //     // backgroundY2 += bgDY;
+    
+    //     // Reset positions when one image fully exits the screen
+    //     if (backgroundY >= bgImageHeight) {
+    //         backgroundY = 0;
+    //         backgroundY2 = -bgImageHeight;
+    //     }
+    // }
 
     public void draw(Graphics2D g2) {
         g2.drawImage(bgImage, 0, backgroundY, null);
